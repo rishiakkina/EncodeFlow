@@ -1,58 +1,108 @@
-# Turborepo Tailwind CSS starter
+# EncodeFlow
 
-This Turborepo starter is maintained by the Turborepo core team.
+Monorepo for encoding workflows: upload -> transcode jobs -> playback manifests.
 
-## Using this example
+## What's in this repo
 
-Run the following command:
+- `apps/api`: Express + TypeScript API
+- `apps/web`: Next.js web UI
+- `packages/db`: Prisma/Postgres data model (User, Video, UploadSession, TranscodeJob, VideoRendition)
+- Shared tooling: `@repo/eslint-config`, `@repo/typescript-config`, `@repo/tailwind-config`
+
+## Development setup
+
+Requirements:
+
+- Node.js >= 18
+- A PostgreSQL connection string via `DATABASE_URL`
+
+1. Install dependencies:
 
 ```sh
-npx create-turbo@latest -e with-tailwind
+npm install
 ```
 
-## What's inside?
+2. Configure the database:
 
-This Turborepo includes the following packages/apps:
+- `packages/db` expects `DATABASE_URL` to be available (it loads it via `dotenv/config`).
+- You can update `packages/db/.env` or set `DATABASE_URL` in your shell/environment.
 
-### Apps and Packages
+## Run locally
 
-- `docs`: a [Next.js](https://nextjs.org/) app with [Tailwind CSS](https://tailwindcss.com/)
-- `web`: another [Next.js](https://nextjs.org/) app with [Tailwind CSS](https://tailwindcss.com/)
-- `ui`: a stub React component library with [Tailwind CSS](https://tailwindcss.com/) shared by both `web` and `docs` applications
-- `@repo/eslint-config`: `eslint` configurations (includes `eslint-config-next` and `eslint-config-prettier`)
-- `@repo/typescript-config`: `tsconfig.json`s used throughout the monorepo
+Start both the API and the web app:
 
-Each package/app is 100% [TypeScript](https://www.typescriptlang.org/).
-
-### Building packages/ui
-
-This example is set up to produce compiled styles for `ui` components into the `dist` directory. The component `.tsx` files are consumed by the Next.js apps directly using `transpilePackages` in `next.config.ts`. This was chosen for several reasons:
-
-- Make sharing one `tailwind.config.ts` to apps and packages as easy as possible.
-- Make package compilation simple by only depending on the Next.js Compiler and `tailwindcss`.
-- Ensure Tailwind classes do not overwrite each other. The `ui` package uses a `ui-` prefix for it's classes.
-- Maintain clear package export boundaries.
-
-Another option is to consume `packages/ui` directly from source without building. If using this option, you will need to update the `tailwind.config.ts` in your apps to be aware of your package locations, so it can find all usages of the `tailwindcss` class names for CSS compilation.
-
-For example, in [tailwind.config.ts](packages/tailwind-config/tailwind.config.ts):
-
-```js
-  content: [
-    // app content
-    `src/**/*.{js,ts,jsx,tsx}`,
-    // include packages if not transpiling
-    "../../packages/ui/*.{js,ts,jsx,tsx}",
-  ],
+```sh
+npm run dev
 ```
 
-If you choose this strategy, you can remove the `tailwindcss` and `autoprefixer` dependencies from the `ui` package.
+Endpoints:
 
-### Utilities
+- API: `http://localhost:3000`
+- Web: `http://localhost:3001`
 
-This Turborepo has some additional tools already setup for you:
+## API endpoints
 
-- [Tailwind CSS](https://tailwindcss.com/) for styles
-- [TypeScript](https://www.typescriptlang.org/) for static type checking
-- [ESLint](https://eslint.org/) for code linting
-- [Prettier](https://prettier.io) for code formatting
+The API is mounted at the Express app in `apps/api`.
+
+Health:
+
+- `GET /healthz` -> `{ ok: true }`
+- `GET /` -> `{ name: "encodeflow-api", status: "ok" }`
+
+Upload sessions:
+
+- `POST /upload-sessions`
+  - Body: `{ filename: string, contentType: string, sizeBytes: number, visibility?: "PUBLIC" | "UNLISTED" | "PRIVATE" }`
+  - Response: `{ uploadSessionId, videoId, upload: { method: "PUT", url, headers } }`
+  - Note: the S3 pre-signed URL/headers are currently placeholders (`TODO_S3_PRESIGNED_URL`).
+- `GET /upload-sessions/:uploadSessionId`
+  - Response includes `status` (`READY_FOR_UPLOAD` | `UPLOADING` | `COMPLETED` | `FAILED`)
+  - Note: currently returns a placeholder state.
+- `POST /upload-sessions/:uploadSessionId/complete`
+  - Body: `{ s3Key: string, etag?: string, sizeBytes?: number }`
+  - Response: `{ uploadSessionId, videoId, jobIds, status: "ENQUEUED" }`
+  - Note: currently returns placeholder values and does not enqueue real jobs yet.
+
+Videos:
+
+- `GET /videos?limit=10`
+  - Response: `{ items: Array<{ id, status, createdAt }>, pageInfo: { nextCursor: null } }`
+  - Note: currently returns mocked items.
+- `GET /videos/:videoId` -> `{ video: { id, status, createdAt } }`
+  - Note: currently returns mocked values.
+- `GET /videos/:videoId/status` -> `{ videoId, status }`
+  - Note: currently returns a mocked status.
+
+Transcode jobs:
+
+- `GET /transcode-jobs/:jobId` -> mocked job state (`UNKNOWN` | `PENDING` | `RUNNING` | `COMPLETED` | `FAILED`)
+
+Playback:
+
+- `GET /playback/:videoId/manifest`
+  - Response: `{ videoId, status, masterPlaylistKey, masterPlaylistUrl, qualities }`
+  - Note: `masterPlaylistUrl` is currently `TODO_CDN_SIGNED_URL`.
+
+## Database (Prisma)
+
+Prisma schema lives in `packages/db/prisma/schema.prisma`.
+
+Models:
+
+- `User`
+- `Video`
+- `VideoRendition`
+- `TranscodeJob`
+- `UploadSession`
+
+To generate migrations locally:
+
+```sh
+cd packages/db
+npm run db:migrate
+```
+
+## Notes on current progress
+
+- The Express API routes exist and validate a few request shapes, but several services are still scaffolding with `TODO` placeholders.
+- The Next.js web UI currently renders mock video data and the upload modal is not wired up to the API yet.
