@@ -32,5 +32,13 @@ yarn-error.log*
 # turbo
 .turbo
 
-# ui
+# ui / build output
 dist/
+
+# cursor generated plans
+.cursor/plans/
+
+# typescript incremental build info
+*.tsbuildinfo
+
+

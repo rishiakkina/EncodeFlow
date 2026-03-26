@@ -5,11 +5,39 @@
 
 generator client {
   provider = "prisma-client"
-  output   = "../generated/prisma"
+  output   = "../src/generated/prisma"
 }
 
 datasource db {
   provider = "postgresql"
+}
+
+enum VideoStatus {
+  UPLOADING
+  PROCESSING
+  READY
+  FAILED
+}
+
+enum UploadSessionStatus {
+  READY_FOR_UPLOAD
+  UPLOADING
+  COMPLETED
+  FAILED
+}
+
+enum TranscodeJobState {
+  PENDING
+  RUNNING
+  COMPLETED
+  FAILED
+}
+
+enum VideoRenditionStatus {
+  PENDING
+  PROCESSING
+  READY
+  FAILED
 }
 
 model User {
@@ -18,4 +46,111 @@ model User {
   password  String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  videos         Video[]
+  uploadSessions UploadSession[]
+}
+
+model Video {
+  id String @id @default(uuid())
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  title       String?
+  description String?
+
+  status     VideoStatus     @default(UPLOADING)
+
+  // Stored once processing completes (in seconds).
+  durationSeconds Int?
+
+  // S3 key for `master.m3u8` (set when processing is READY).
+  masterPlaylistKey String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  renditions      VideoRendition[]
+  transcodeJobs   TranscodeJob[]
+  uploadSessions UploadSession[]
+
+  @@index([userId, createdAt])
+}
+
+model VideoRendition {
+  id String @id @default(uuid())
+
+  videoId String
+  video   Video  @relation(fields: [videoId], references: [id], onDelete: Cascade)
+
+  resolution String
+  // Target bitrate in kilobits per second (kbps).
+  bitrateKbps Int?
+  codec        String?
+
+  status       VideoRenditionStatus @default(PENDING)
+  // S3 key for variant playlist (e.g. `videos/<videoId>/720p/index.m3u8`).
+  manifestKey String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([videoId, resolution])
+  @@index([videoId])
+}
+
+model TranscodeJob {
+  id String @id @default(uuid())
+
+  videoId String
+  video   Video  @relation(fields: [videoId], references: [id], onDelete: Cascade)
+
+  attempt Int @default(0)
+
+  state TranscodeJobState @default(PENDING)
+
+  // Higher numbers can represent higher priority (queue implementation decides).
+  priority Int?
+  traceId  String?
+
+  // S3 keys for worker input/output.
+  inputKey      String?
+  outputBaseKey String?
+  // Transcode profile set chosen for this job (stored as JSON to allow flexible evolution).
+  profiles Json?
+
+  errorReason String?
+
+  createdAt DateTime @default(now())
+  startedAt DateTime?
+  finishedAt DateTime?
+  updatedAt DateTime @updatedAt
+
+  @@index([videoId, createdAt])
+}
+
+model UploadSession {
+  id String @id @default(uuid())
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  videoId String
+  video   Video  @relation(fields: [videoId], references: [id], onDelete: Cascade)
+
+  status UploadSessionStatus @default(READY_FOR_UPLOAD)
+
+  originalFilename String
+  contentType      String
+  sizeBytes        BigInt
+
+  // S3 placement + client checks (filled during completion).
+  s3Key String?
+  etag  String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([userId, createdAt])
 }
