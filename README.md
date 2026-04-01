@@ -1,12 +1,14 @@
 # EncodeFlow
 
-Monorepo for encoding workflows: upload -> transcode jobs -> playback manifests.
+Monorepo for encoding workflows: upload → transcode jobs → playback manifests.
 
 ## What's in this repo
 
-- `apps/api`: Express + TypeScript API
-- `apps/web`: Next.js web UI
-- `packages/db`: Prisma/Postgres data model (User, Video, UploadSession, TranscodeJob, VideoRendition)
+- **`apps/api`** — Express + TypeScript API
+- **`apps/web`** — Next.js web UI
+- **`packages/db`** — Prisma/Postgres (`User`, `Video`, `UploadSession`, `TranscodeJob`, `VideoRendition`)
+- **`packages/s3`** — AWS S3 client and presigned PUT/GET URL helpers
+- **`packages/redis`** — Redis client; transcode requests are pushed to stream `encodeflow:transcode`
 - Shared tooling: `@repo/eslint-config`, `@repo/typescript-config`, `@repo/tailwind-config`
 
 ## Development setup
@@ -14,7 +16,9 @@ Monorepo for encoding workflows: upload -> transcode jobs -> playback manifests.
 Requirements:
 
 - Node.js >= 18
-- A PostgreSQL connection string via `DATABASE_URL`
+- PostgreSQL (`DATABASE_URL` for Prisma)
+- Redis (`REDIS_URL` for enqueueing transcode work after upload complete)
+- AWS credentials and an S3 bucket for presigned uploads (`AWS_REGION`, `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY`, `AWS_BUCKET_NAME`)
 
 1. Install dependencies:
 
@@ -22,10 +26,10 @@ Requirements:
 npm install
 ```
 
-2. Configure the database:
+2. Configure environment:
 
-- `packages/db` expects `DATABASE_URL` to be available (it loads it via `dotenv/config`).
-- You can update `packages/db/.env` or set `DATABASE_URL` in your shell/environment.
+- **`packages/db`** — `DATABASE_URL` (e.g. in `packages/db/.env`; loaded via `dotenv`).
+- **`apps/api`** / **`packages/s3`** / **`packages/redis`** — set `REDIS_URL`, `AWS_*`, and `AWS_BUCKET_NAME` where the processes run (e.g. repo `.env` or shell).
 
 ## Run locally
 
@@ -42,67 +46,42 @@ Endpoints:
 
 ## API endpoints
 
-The API is mounted at the Express app in `apps/api`.
+The API is mounted on the Express app in `apps/api`. See **`docs/api.md`** for a concise reference.
 
 Health:
 
-- `GET /healthz` -> `{ ok: true }`
-- `GET /` -> `{ name: "encodeflow-api", status: "ok" }`
+- `GET /healthz` → `{ ok: true }`
+- `GET /` → `{ name: "encodeflow-api", status: "ok" }`
 
 Upload sessions:
 
 - `POST /upload-sessions`
-  - Body: `{ filename: string, contentType: string, sizeBytes: number, visibility?: "PUBLIC" | "UNLISTED" | "PRIVATE" }`
-  - Response: `{ uploadSessionId, videoId, upload: { method: "PUT", url, headers } }`
-  - Note: the S3 pre-signed URL/headers are currently placeholders (`TODO_S3_PRESIGNED_URL`).
+  - Body: `{ filename: string, contentType: string }`
+  - **Current behavior:** the service returns a **presigned PUT URL string**; the JSON body shape should be expanded to match client expectations (the web app expects `upload.url`, `uploadSessionId`, `s3Key`, etc.).
 - `GET /upload-sessions/:uploadSessionId`
-  - Response includes `status` (`READY_FOR_UPLOAD` | `UPLOADING` | `COMPLETED` | `FAILED`)
-  - Note: currently returns a placeholder state.
+  - Stub: status is not yet loaded from DB/Redis.
 - `POST /upload-sessions/:uploadSessionId/complete`
   - Body: `{ s3Key: string, etag?: string, sizeBytes?: number }`
-  - Response: `{ uploadSessionId, videoId, jobIds, status: "ENQUEUED" }`
-  - Note: currently returns placeholder values and does not enqueue real jobs yet.
+  - Enqueues a transcode request on the Redis stream (see **`docs/architecture.md`**).
 
-Videos:
-
-- `GET /videos?limit=10`
-  - Response: `{ items: Array<{ id, status, createdAt }>, pageInfo: { nextCursor: null } }`
-  - Note: currently returns mocked items.
-- `GET /videos/:videoId` -> `{ video: { id, status, createdAt } }`
-  - Note: currently returns mocked values.
-- `GET /videos/:videoId/status` -> `{ videoId, status }`
-  - Note: currently returns a mocked status.
-
-Transcode jobs:
-
-- `GET /transcode-jobs/:jobId` -> mocked job state (`UNKNOWN` | `PENDING` | `RUNNING` | `COMPLETED` | `FAILED`)
-
-Playback:
-
-- `GET /playback/:videoId/manifest`
-  - Response: `{ videoId, status, masterPlaylistKey, masterPlaylistUrl, qualities }`
-  - Note: `masterPlaylistUrl` is currently `TODO_CDN_SIGNED_URL`.
+Videos, job status, and playback routes exist but may still use mocks or TODOs until wired to Postgres/Redis and CDN signing — check `apps/api/src/services/*.ts`.
 
 ## Database (Prisma)
 
-Prisma schema lives in `packages/db/prisma/schema.prisma`.
-
-Models:
-
-- `User`
-- `Video`
-- `VideoRendition`
-- `TranscodeJob`
-- `UploadSession`
-
-To generate migrations locally:
+Schema: `packages/db/prisma/schema.prisma`.
 
 ```sh
 cd packages/db
 npm run db:migrate
 ```
 
-## Notes on current progress
+## Docs
 
-- The Express API routes exist and validate a few request shapes, but several services are still scaffolding with `TODO` placeholders.
-- The Next.js web UI currently renders mock video data and the upload modal is not wired up to the API yet.
+- **`docs/architecture.md`** — components and upload-to-queue flow
+- **`docs/api.md`** — endpoint overview and current caveats
+
+## Current focus
+
+- Align **`POST /upload-sessions`** response with the web client (and optionally persist the session in Prisma).
+- Replace stubs with DB-backed reads and real job/playback state.
+- Implement workers that consume the Redis transcode stream and write renditions to S3.
