@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useEffect, useId, useRef, useState } from "react";
 import { Bell, Mic, Search, Upload, User, Video, X } from "lucide-react";
+import axios from "axios";
 
 export function AppHeader() {
   const dialogTitleId = useId();
@@ -12,16 +13,6 @@ export function AppHeader() {
   const [description, setDescription] = useState("");
   const nameInputRef = useRef<HTMLInputElement | null>(null);
 
-  useEffect(() => {
-    if (!isCreateOpen) return;
-
-    const onKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "Escape") setIsCreateOpen(false);
-    };
-
-    document.addEventListener("keydown", onKeyDown);
-    return () => document.removeEventListener("keydown", onKeyDown);
-  }, [isCreateOpen]);
 
   useEffect(() => {
     if (!isCreateOpen) return;
@@ -183,9 +174,22 @@ export function AppHeader() {
               </button>
               <button
                 disabled={!canUpload}
-                onClick={() => {
-                  // Hook up to your upload endpoint later.
-                  // For now: close and reset.
+                onClick={async () => {
+                  const response = await axios.post("http://localhost:3000/upload-sessions", {
+                    filename: videoFile?.name ?? "",
+                    contentType: videoFile?.type ?? "video/mp4"
+                  });
+                  const uploadResponse = await axios.put(response.data.upload.url, videoFile, {
+                    headers: {
+                      "Content-Type": videoFile?.type ?? "video/mp4"
+                    }
+                  });
+                  console.log(uploadResponse.data);
+                  const completeResponse = await axios.post(`http://localhost:3000/upload-sessions/${response.data.uploadSessionId}/complete`, {
+                    s3Key: response.data.s3Key,
+                    etag: uploadResponse.data.etag
+                  });
+                  console.log(completeResponse.data);
                   closeAndReset();
                 }}
                 className="h-9 rounded-full bg-zinc-50 px-4 text-sm font-semibold text-zinc-950 hover:bg-zinc-200 disabled:cursor-not-allowed disabled:opacity-60"

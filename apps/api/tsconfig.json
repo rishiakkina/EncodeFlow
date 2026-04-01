@@ -1,9 +1,16 @@
 {
   "extends": "@repo/typescript-config/base.json",
   "compilerOptions": {
+    "paths": {
+      "@repo/redis": ["../../packages/redis/src"],
+      "@repo/s3": ["../../packages/s3/src"]
+    },
     "outDir": "dist",
-    "rootDir": "src"
+    "rootDir": "src",
+    "composite": true,
+    "incremental": true
   },
   "include": ["src/**/*.ts"],
-  "exclude": ["node_modules", "dist"]
+  "exclude": ["node_modules", "dist"],
+  "references": [{ "path": "../../packages/redis" }, { "path": "../../packages/s3" }]
 }

@@ -4,12 +4,12 @@ import {
   createUploadSession,
   getUploadSessionState,
 } from "../services/uploads.service";
+import dotenv from "dotenv";
+dotenv.config();
 
 type CreateUploadSessionBody = {
   filename: string;
   contentType: string;
-  sizeBytes: number;
-  visibility?: "PUBLIC" | "UNLISTED" | "PRIVATE";
 };
 
 type CompleteUploadSessionBody = {
@@ -18,13 +18,12 @@ type CompleteUploadSessionBody = {
   sizeBytes?: number;
 };
 
-export function handleCreateUploadSession(req: Request, res: Response) {
-  const body = req.body as Partial<CreateUploadSessionBody>;
+export async function handleCreateUploadSession(req: Request, res: Response) {
+  const body = req.body as CreateUploadSessionBody;
 
   const missing =
     !body.filename ||
-    !body.contentType ||
-    typeof body.sizeBytes !== "number";
+    !body.contentType;
 
   if (missing) {
     return res.status(400).json({
@@ -33,20 +32,19 @@ export function handleCreateUploadSession(req: Request, res: Response) {
     });
   }
 
-  // TypeScript doesn't narrow deeply through `Partial<...>` checks,
-  // so we assert non-null here after the validation above.
-  const filename = body.filename!;
-  const contentType = body.contentType!;
-  const sizeBytes = body.sizeBytes as number;
+  try {
+    const result = await createUploadSession({
+      filename: body.filename,
+      contentType: body.contentType,
+    });
 
-  const result = createUploadSession({
-    filename,
-    contentType,
-    sizeBytes,
-    visibility: body.visibility,
-  });
-
-  return res.status(201).json(result);
+    return res.status(201).json(result);
+  } catch (error) {
+    return res.status(500).json({
+      error: "upload_session_creation_failed",
+      message: error instanceof Error ? error.message : "Unknown error",
+    });
+  }
 }
 
 export function handleGetUploadSession(req: Request, res: Response) {
@@ -56,9 +54,9 @@ export function handleGetUploadSession(req: Request, res: Response) {
   return res.json(state);
 }
 
-export function handleCompleteUploadSession(req: Request, res: Response) {
+export async function handleCompleteUploadSession(req: Request, res: Response) {
   const { uploadSessionId } = req.params as { uploadSessionId: string };
-  const body = req.body as Partial<CompleteUploadSessionBody>;
+  const body = req.body as CompleteUploadSessionBody;
 
   if (!body.s3Key) {
     return res.status(400).json({
@@ -67,7 +65,7 @@ export function handleCompleteUploadSession(req: Request, res: Response) {
     });
   }
 
-  const result = completeUploadSession(uploadSessionId, {
+  const result = await completeUploadSession(uploadSessionId, {
     s3Key: body.s3Key,
     etag: body.etag,
     sizeBytes: body.sizeBytes,

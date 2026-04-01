@@ -1,13 +1,13 @@
 import { randomUUID } from "crypto";
+import { getPresignedPutUrl, s3Client } from "@repo/s3";
+import { xAddTranscodeRequest } from "@repo/redis";
+import dotenv from "dotenv";
+dotenv.config();
 
 export type CreateUploadSessionResult = {
   uploadSessionId: string;
   videoId: string;
-  upload: {
-    method: "PUT";
-    url: string;
-    headers: Record<string, string>;
-  };
+  url: string;
 };
 
 export type UploadSessionState = {
@@ -15,28 +15,29 @@ export type UploadSessionState = {
   status: "READY_FOR_UPLOAD" | "UPLOADING" | "COMPLETED" | "FAILED";
 };
 
-export function createUploadSession(input: {
+export async function createUploadSession(input: {
   filename: string;
   contentType: string;
-  sizeBytes: number;
-  visibility?: "PUBLIC" | "UNLISTED" | "PRIVATE";
-}): CreateUploadSessionResult {
-  const uploadSessionId = randomUUID();
+}): Promise<string> {
+  const bucketName = process.env.AWS_BUCKET_NAME?.trim();
+  if (!bucketName) {
+    throw new Error("Missing AWS_BUCKET_NAME environment variable");
+  }
+
   const videoId = randomUUID();
+  const uploadSessionId = randomUUID();
 
-  // TODO: Create DB rows for the upload session + video.
-  // TODO: Generate S3 pre-signed URL(s) for single-file upload.
-  void input;
+  const s3Key = `uploads/${videoId}.${uploadSessionId}.${input.filename}`;
 
-  return {
-    uploadSessionId,
-    videoId,
-    upload: {
-      method: "PUT",
-      url: "TODO_S3_PRESIGNED_URL",
-      headers: {},
-    },
-  };
+  console.log("s3Key", s3Key);
+
+  const url = await getPresignedPutUrl(s3Client, {
+    bucket: bucketName,
+    key: s3Key,
+    contentType: input.contentType,
+  });
+
+  return url;
 }
 
 export function getUploadSessionState(uploadSessionId: string): UploadSessionState {
@@ -47,21 +48,34 @@ export function getUploadSessionState(uploadSessionId: string): UploadSessionSta
   };
 }
 
-export function completeUploadSession(
+export async function completeUploadSession(
   uploadSessionId: string,
   input: { s3Key: string; etag?: string; sizeBytes?: number },
-): {
+): Promise<{
   uploadSessionId: string;
   videoId: string;
   jobIds: string[];
   status: "ENQUEUED";
-} {
+}> {
   // TODO: Validate/ffprobe input and write initial metadata to DB.
-  // TODO: Enqueue transcode job into Redis.
-  void input;
 
   const videoId = randomUUID();
   const jobId = randomUUID();
+  const createdAtMs = Date.now();
+  const outputBaseKey = `videos/${videoId}`;
+
+  await xAddTranscodeRequest({
+    jobId,
+    videoId,
+    uploadSessionId,
+    inputKey: input.s3Key,
+    outputBaseKey,
+    qualities: ["1080p", "720p", "480p"],
+    attempt: 0,
+    maxAttempts: 5,
+    priority: 10,
+    createdAtMs,
+  });
 
   return {
     uploadSessionId,
