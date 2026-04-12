@@ -35,42 +35,33 @@ export type VideoSumAggregateOutputType = {
 }
 
 export type VideoMinAggregateOutputType = {
-  id: string | null
-  userId: string | null
+  videoId: string | null
+  videoChannel: string | null
   title: string | null
   description: string | null
   status: $Enums.VideoStatus | null
-  visibility: $Enums.VideoVisibility | null
   durationSeconds: number | null
-  masterPlaylistKey: string | null
   createdAt: Date | null
-  updatedAt: Date | null
 }
 
 export type VideoMaxAggregateOutputType = {
-  id: string | null
-  userId: string | null
+  videoId: string | null
+  videoChannel: string | null
   title: string | null
   description: string | null
   status: $Enums.VideoStatus | null
-  visibility: $Enums.VideoVisibility | null
   durationSeconds: number | null
-  masterPlaylistKey: string | null
   createdAt: Date | null
-  updatedAt: Date | null
 }
 
 export type VideoCountAggregateOutputType = {
-  id: number
-  userId: number
+  videoId: number
+  videoChannel: number
   title: number
   description: number
   status: number
-  visibility: number
   durationSeconds: number
-  masterPlaylistKey: number
   createdAt: number
-  updatedAt: number
   _all: number
 }
 
@@ -84,42 +75,33 @@ export type VideoSumAggregateInputType = {
 }
 
 export type VideoMinAggregateInputType = {
-  id?: true
-  userId?: true
+  videoId?: true
+  videoChannel?: true
   title?: true
   description?: true
   status?: true
-  visibility?: true
   durationSeconds?: true
-  masterPlaylistKey?: true
   createdAt?: true
-  updatedAt?: true
 }
 
 export type VideoMaxAggregateInputType = {
-  id?: true
-  userId?: true
+  videoId?: true
+  videoChannel?: true
   title?: true
   description?: true
   status?: true
-  visibility?: true
   durationSeconds?: true
-  masterPlaylistKey?: true
   createdAt?: true
-  updatedAt?: true
 }
 
 export type VideoCountAggregateInputType = {
-  id?: true
-  userId?: true
+  videoId?: true
+  videoChannel?: true
   title?: true
   description?: true
   status?: true
-  visibility?: true
   durationSeconds?: true
-  masterPlaylistKey?: true
   createdAt?: true
-  updatedAt?: true
   _all?: true
 }
 
@@ -210,16 +192,13 @@ export type VideoGroupByArgs<ExtArgs extends runtime.Types.Extensions.InternalAr
 }
 
 export type VideoGroupByOutputType = {
-  id: string
-  userId: string
-  title: string | null
-  description: string | null
+  videoId: string
+  videoChannel: string
+  title: string
+  description: string
   status: $Enums.VideoStatus
-  visibility: $Enums.VideoVisibility
-  durationSeconds: number | null
-  masterPlaylistKey: string | null
+  durationSeconds: number
   createdAt: Date
-  updatedAt: Date
   _count: VideoCountAggregateOutputType | null
   _avg: VideoAvgAggregateOutputType | null
   _sum: VideoSumAggregateOutputType | null
@@ -227,7 +206,7 @@ export type VideoGroupByOutputType = {
   _max: VideoMaxAggregateOutputType | null
 }
 
-type GetVideoGroupByPayload<T extends VideoGroupByArgs> = Prisma.PrismaPromise<
+export type GetVideoGroupByPayload<T extends VideoGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<VideoGroupByOutputType, T['by']> &
       {
@@ -246,70 +225,49 @@ export type VideoWhereInput = {
   AND?: Prisma.VideoWhereInput | Prisma.VideoWhereInput[]
   OR?: Prisma.VideoWhereInput[]
   NOT?: Prisma.VideoWhereInput | Prisma.VideoWhereInput[]
-  id?: Prisma.StringFilter<"Video"> | string
-  userId?: Prisma.StringFilter<"Video"> | string
-  title?: Prisma.StringNullableFilter<"Video"> | string | null
-  description?: Prisma.StringNullableFilter<"Video"> | string | null
+  videoId?: Prisma.StringFilter<"Video"> | string
+  videoChannel?: Prisma.StringFilter<"Video"> | string
+  title?: Prisma.StringFilter<"Video"> | string
+  description?: Prisma.StringFilter<"Video"> | string
   status?: Prisma.EnumVideoStatusFilter<"Video"> | $Enums.VideoStatus
-  visibility?: Prisma.EnumVideoVisibilityFilter<"Video"> | $Enums.VideoVisibility
-  durationSeconds?: Prisma.IntNullableFilter<"Video"> | number | null
-  masterPlaylistKey?: Prisma.StringNullableFilter<"Video"> | string | null
+  durationSeconds?: Prisma.IntFilter<"Video"> | number
   createdAt?: Prisma.DateTimeFilter<"Video"> | Date | string
-  updatedAt?: Prisma.DateTimeFilter<"Video"> | Date | string
-  user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
-  renditions?: Prisma.VideoRenditionListRelationFilter
-  transcodeJobs?: Prisma.TranscodeJobListRelationFilter
   uploadSessions?: Prisma.UploadSessionListRelationFilter
 }
 
 export type VideoOrderByWithRelationInput = {
-  id?: Prisma.SortOrder
-  userId?: Prisma.SortOrder
-  title?: Prisma.SortOrderInput | Prisma.SortOrder
-  description?: Prisma.SortOrderInput | Prisma.SortOrder
+  videoId?: Prisma.SortOrder
+  videoChannel?: Prisma.SortOrder
+  title?: Prisma.SortOrder
+  description?: Prisma.SortOrder
   status?: Prisma.SortOrder
-  visibility?: Prisma.SortOrder
-  durationSeconds?: Prisma.SortOrderInput | Prisma.SortOrder
-  masterPlaylistKey?: Prisma.SortOrderInput | Prisma.SortOrder
+  durationSeconds?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
-  updatedAt?: Prisma.SortOrder
-  user?: Prisma.UserOrderByWithRelationInput
-  renditions?: Prisma.VideoRenditionOrderByRelationAggregateInput
-  transcodeJobs?: Prisma.TranscodeJobOrderByRelationAggregateInput
   uploadSessions?: Prisma.UploadSessionOrderByRelationAggregateInput
 }
 
 export type VideoWhereUniqueInput = Prisma.AtLeast<{
-  id?: string
+  videoId?: string
   AND?: Prisma.VideoWhereInput | Prisma.VideoWhereInput[]
   OR?: Prisma.VideoWhereInput[]
   NOT?: Prisma.VideoWhereInput | Prisma.VideoWhereInput[]
-  userId?: Prisma.StringFilter<"Video"> | string
-  title?: Prisma.StringNullableFilter<"Video"> | string | null
-  description?: Prisma.StringNullableFilter<"Video"> | string | null
+  videoChannel?: Prisma.StringFilter<"Video"> | string
+  title?: Prisma.StringFilter<"Video"> | string
+  description?: Prisma.StringFilter<"Video"> | string
   status?: Prisma.EnumVideoStatusFilter<"Video"> | $Enums.VideoStatus
-  visibility?: Prisma.EnumVideoVisibilityFilter<"Video"> | $Enums.VideoVisibility
-  durationSeconds?: Prisma.IntNullableFilter<"Video"> | number | null
-  masterPlaylistKey?: Prisma.StringNullableFilter<"Video"> | string | null
+  durationSeconds?: Prisma.IntFilter<"Video"> | number
   createdAt?: Prisma.DateTimeFilter<"Video"> | Date | string
-  updatedAt?: Prisma.DateTimeFilter<"Video"> | Date | string
-  user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
-  renditions?: Prisma.VideoRenditionListRelationFilter
-  transcodeJobs?: Prisma.TranscodeJobListRelationFilter
   uploadSessions?: Prisma.UploadSessionListRelationFilter
-}, "id">
+}, "videoId">
 
 export type VideoOrderByWithAggregationInput = {
-  id?: Prisma.SortOrder
-  userId?: Prisma.SortOrder
-  title?: Prisma.SortOrderInput | Prisma.SortOrder
-  description?: Prisma.SortOrderInput | Prisma.SortOrder
+  videoId?: Prisma.SortOrder
+  videoChannel?: Prisma.SortOrder
+  title?: Prisma.SortOrder
+  description?: Prisma.SortOrder
   status?: Prisma.SortOrder
-  visibility?: Prisma.SortOrder
-  durationSeconds?: Prisma.SortOrderInput | Prisma.SortOrder
-  masterPlaylistKey?: Prisma.SortOrderInput | Prisma.SortOrder
+  durationSeconds?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
-  updatedAt?: Prisma.SortOrder
   _count?: Prisma.VideoCountOrderByAggregateInput
   _avg?: Prisma.VideoAvgOrderByAggregateInput
   _max?: Prisma.VideoMaxOrderByAggregateInput
@@ -321,141 +279,97 @@ export type VideoScalarWhereWithAggregatesInput = {
   AND?: Prisma.VideoScalarWhereWithAggregatesInput | Prisma.VideoScalarWhereWithAggregatesInput[]
   OR?: Prisma.VideoScalarWhereWithAggregatesInput[]
   NOT?: Prisma.VideoScalarWhereWithAggregatesInput | Prisma.VideoScalarWhereWithAggregatesInput[]
-  id?: Prisma.StringWithAggregatesFilter<"Video"> | string
-  userId?: Prisma.StringWithAggregatesFilter<"Video"> | string
-  title?: Prisma.StringNullableWithAggregatesFilter<"Video"> | string | null
-  description?: Prisma.StringNullableWithAggregatesFilter<"Video"> | string | null
+  videoId?: Prisma.StringWithAggregatesFilter<"Video"> | string
+  videoChannel?: Prisma.StringWithAggregatesFilter<"Video"> | string
+  title?: Prisma.StringWithAggregatesFilter<"Video"> | string
+  description?: Prisma.StringWithAggregatesFilter<"Video"> | string
   status?: Prisma.EnumVideoStatusWithAggregatesFilter<"Video"> | $Enums.VideoStatus
-  visibility?: Prisma.EnumVideoVisibilityWithAggregatesFilter<"Video"> | $Enums.VideoVisibility
-  durationSeconds?: Prisma.IntNullableWithAggregatesFilter<"Video"> | number | null
-  masterPlaylistKey?: Prisma.StringNullableWithAggregatesFilter<"Video"> | string | null
+  durationSeconds?: Prisma.IntWithAggregatesFilter<"Video"> | number
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Video"> | Date | string
-  updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Video"> | Date | string
 }
 
 export type VideoCreateInput = {
-  id?: string
-  title?: string | null
-  description?: string | null
+  videoId?: string
+  videoChannel: string
+  title: string
+  description: string
   status?: $Enums.VideoStatus
-  visibility?: $Enums.VideoVisibility
-  durationSeconds?: number | null
-  masterPlaylistKey?: string | null
+  durationSeconds: number
   createdAt?: Date | string
-  updatedAt?: Date | string
-  user: Prisma.UserCreateNestedOneWithoutVideosInput
-  renditions?: Prisma.VideoRenditionCreateNestedManyWithoutVideoInput
-  transcodeJobs?: Prisma.TranscodeJobCreateNestedManyWithoutVideoInput
   uploadSessions?: Prisma.UploadSessionCreateNestedManyWithoutVideoInput
 }
 
 export type VideoUncheckedCreateInput = {
-  id?: string
-  userId: string
-  title?: string | null
-  description?: string | null
+  videoId?: string
+  videoChannel: string
+  title: string
+  description: string
   status?: $Enums.VideoStatus
-  visibility?: $Enums.VideoVisibility
-  durationSeconds?: number | null
-  masterPlaylistKey?: string | null
+  durationSeconds: number
   createdAt?: Date | string
-  updatedAt?: Date | string
-  renditions?: Prisma.VideoRenditionUncheckedCreateNestedManyWithoutVideoInput
-  transcodeJobs?: Prisma.TranscodeJobUncheckedCreateNestedManyWithoutVideoInput
   uploadSessions?: Prisma.UploadSessionUncheckedCreateNestedManyWithoutVideoInput
 }
 
 export type VideoUpdateInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  videoId?: Prisma.StringFieldUpdateOperationsInput | string
+  videoChannel?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumVideoStatusFieldUpdateOperationsInput | $Enums.VideoStatus
-  visibility?: Prisma.EnumVideoVisibilityFieldUpdateOperationsInput | $Enums.VideoVisibility
-  durationSeconds?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  masterPlaylistKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  durationSeconds?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  user?: Prisma.UserUpdateOneRequiredWithoutVideosNestedInput
-  renditions?: Prisma.VideoRenditionUpdateManyWithoutVideoNestedInput
-  transcodeJobs?: Prisma.TranscodeJobUpdateManyWithoutVideoNestedInput
   uploadSessions?: Prisma.UploadSessionUpdateManyWithoutVideoNestedInput
 }
 
 export type VideoUncheckedUpdateInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  userId?: Prisma.StringFieldUpdateOperationsInput | string
-  title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  videoId?: Prisma.StringFieldUpdateOperationsInput | string
+  videoChannel?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumVideoStatusFieldUpdateOperationsInput | $Enums.VideoStatus
-  visibility?: Prisma.EnumVideoVisibilityFieldUpdateOperationsInput | $Enums.VideoVisibility
-  durationSeconds?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  masterPlaylistKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  durationSeconds?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  renditions?: Prisma.VideoRenditionUncheckedUpdateManyWithoutVideoNestedInput
-  transcodeJobs?: Prisma.TranscodeJobUncheckedUpdateManyWithoutVideoNestedInput
   uploadSessions?: Prisma.UploadSessionUncheckedUpdateManyWithoutVideoNestedInput
 }
 
 export type VideoCreateManyInput = {
-  id?: string
-  userId: string
-  title?: string | null
-  description?: string | null
+  videoId?: string
+  videoChannel: string
+  title: string
+  description: string
   status?: $Enums.VideoStatus
-  visibility?: $Enums.VideoVisibility
-  durationSeconds?: number | null
-  masterPlaylistKey?: string | null
+  durationSeconds: number
   createdAt?: Date | string
-  updatedAt?: Date | string
 }
 
 export type VideoUpdateManyMutationInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  videoId?: Prisma.StringFieldUpdateOperationsInput | string
+  videoChannel?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumVideoStatusFieldUpdateOperationsInput | $Enums.VideoStatus
-  visibility?: Prisma.EnumVideoVisibilityFieldUpdateOperationsInput | $Enums.VideoVisibility
-  durationSeconds?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  masterPlaylistKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  durationSeconds?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type VideoUncheckedUpdateManyInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  userId?: Prisma.StringFieldUpdateOperationsInput | string
-  title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  videoId?: Prisma.StringFieldUpdateOperationsInput | string
+  videoChannel?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumVideoStatusFieldUpdateOperationsInput | $Enums.VideoStatus
-  visibility?: Prisma.EnumVideoVisibilityFieldUpdateOperationsInput | $Enums.VideoVisibility
-  durationSeconds?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  masterPlaylistKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  durationSeconds?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-}
-
-export type VideoListRelationFilter = {
-  every?: Prisma.VideoWhereInput
-  some?: Prisma.VideoWhereInput
-  none?: Prisma.VideoWhereInput
-}
-
-export type VideoOrderByRelationAggregateInput = {
-  _count?: Prisma.SortOrder
 }
 
 export type VideoCountOrderByAggregateInput = {
-  id?: Prisma.SortOrder
-  userId?: Prisma.SortOrder
+  videoId?: Prisma.SortOrder
+  videoChannel?: Prisma.SortOrder
   title?: Prisma.SortOrder
   description?: Prisma.SortOrder
   status?: Prisma.SortOrder
-  visibility?: Prisma.SortOrder
   durationSeconds?: Prisma.SortOrder
-  masterPlaylistKey?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
-  updatedAt?: Prisma.SortOrder
 }
 
 export type VideoAvgOrderByAggregateInput = {
@@ -463,29 +377,23 @@ export type VideoAvgOrderByAggregateInput = {
 }
 
 export type VideoMaxOrderByAggregateInput = {
-  id?: Prisma.SortOrder
-  userId?: Prisma.SortOrder
+  videoId?: Prisma.SortOrder
+  videoChannel?: Prisma.SortOrder
   title?: Prisma.SortOrder
   description?: Prisma.SortOrder
   status?: Prisma.SortOrder
-  visibility?: Prisma.SortOrder
   durationSeconds?: Prisma.SortOrder
-  masterPlaylistKey?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
-  updatedAt?: Prisma.SortOrder
 }
 
 export type VideoMinOrderByAggregateInput = {
-  id?: Prisma.SortOrder
-  userId?: Prisma.SortOrder
+  videoId?: Prisma.SortOrder
+  videoChannel?: Prisma.SortOrder
   title?: Prisma.SortOrder
   description?: Prisma.SortOrder
   status?: Prisma.SortOrder
-  visibility?: Prisma.SortOrder
   durationSeconds?: Prisma.SortOrder
-  masterPlaylistKey?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
-  updatedAt?: Prisma.SortOrder
 }
 
 export type VideoSumOrderByAggregateInput = {
@@ -497,94 +405,24 @@ export type VideoScalarRelationFilter = {
   isNot?: Prisma.VideoWhereInput
 }
 
-export type VideoCreateNestedManyWithoutUserInput = {
-  create?: Prisma.XOR<Prisma.VideoCreateWithoutUserInput, Prisma.VideoUncheckedCreateWithoutUserInput> | Prisma.VideoCreateWithoutUserInput[] | Prisma.VideoUncheckedCreateWithoutUserInput[]
-  connectOrCreate?: Prisma.VideoCreateOrConnectWithoutUserInput | Prisma.VideoCreateOrConnectWithoutUserInput[]
-  createMany?: Prisma.VideoCreateManyUserInputEnvelope
-  connect?: Prisma.VideoWhereUniqueInput | Prisma.VideoWhereUniqueInput[]
-}
-
-export type VideoUncheckedCreateNestedManyWithoutUserInput = {
-  create?: Prisma.XOR<Prisma.VideoCreateWithoutUserInput, Prisma.VideoUncheckedCreateWithoutUserInput> | Prisma.VideoCreateWithoutUserInput[] | Prisma.VideoUncheckedCreateWithoutUserInput[]
-  connectOrCreate?: Prisma.VideoCreateOrConnectWithoutUserInput | Prisma.VideoCreateOrConnectWithoutUserInput[]
-  createMany?: Prisma.VideoCreateManyUserInputEnvelope
-  connect?: Prisma.VideoWhereUniqueInput | Prisma.VideoWhereUniqueInput[]
-}
-
-export type VideoUpdateManyWithoutUserNestedInput = {
-  create?: Prisma.XOR<Prisma.VideoCreateWithoutUserInput, Prisma.VideoUncheckedCreateWithoutUserInput> | Prisma.VideoCreateWithoutUserInput[] | Prisma.VideoUncheckedCreateWithoutUserInput[]
-  connectOrCreate?: Prisma.VideoCreateOrConnectWithoutUserInput | Prisma.VideoCreateOrConnectWithoutUserInput[]
-  upsert?: Prisma.VideoUpsertWithWhereUniqueWithoutUserInput | Prisma.VideoUpsertWithWhereUniqueWithoutUserInput[]
-  createMany?: Prisma.VideoCreateManyUserInputEnvelope
-  set?: Prisma.VideoWhereUniqueInput | Prisma.VideoWhereUniqueInput[]
-  disconnect?: Prisma.VideoWhereUniqueInput | Prisma.VideoWhereUniqueInput[]
-  delete?: Prisma.VideoWhereUniqueInput | Prisma.VideoWhereUniqueInput[]
-  connect?: Prisma.VideoWhereUniqueInput | Prisma.VideoWhereUniqueInput[]
-  update?: Prisma.VideoUpdateWithWhereUniqueWithoutUserInput | Prisma.VideoUpdateWithWhereUniqueWithoutUserInput[]
-  updateMany?: Prisma.VideoUpdateManyWithWhereWithoutUserInput | Prisma.VideoUpdateManyWithWhereWithoutUserInput[]
-  deleteMany?: Prisma.VideoScalarWhereInput | Prisma.VideoScalarWhereInput[]
-}
-
-export type VideoUncheckedUpdateManyWithoutUserNestedInput = {
-  create?: Prisma.XOR<Prisma.VideoCreateWithoutUserInput, Prisma.VideoUncheckedCreateWithoutUserInput> | Prisma.VideoCreateWithoutUserInput[] | Prisma.VideoUncheckedCreateWithoutUserInput[]
-  connectOrCreate?: Prisma.VideoCreateOrConnectWithoutUserInput | Prisma.VideoCreateOrConnectWithoutUserInput[]
-  upsert?: Prisma.VideoUpsertWithWhereUniqueWithoutUserInput | Prisma.VideoUpsertWithWhereUniqueWithoutUserInput[]
-  createMany?: Prisma.VideoCreateManyUserInputEnvelope
-  set?: Prisma.VideoWhereUniqueInput | Prisma.VideoWhereUniqueInput[]
-  disconnect?: Prisma.VideoWhereUniqueInput | Prisma.VideoWhereUniqueInput[]
-  delete?: Prisma.VideoWhereUniqueInput | Prisma.VideoWhereUniqueInput[]
-  connect?: Prisma.VideoWhereUniqueInput | Prisma.VideoWhereUniqueInput[]
-  update?: Prisma.VideoUpdateWithWhereUniqueWithoutUserInput | Prisma.VideoUpdateWithWhereUniqueWithoutUserInput[]
-  updateMany?: Prisma.VideoUpdateManyWithWhereWithoutUserInput | Prisma.VideoUpdateManyWithWhereWithoutUserInput[]
-  deleteMany?: Prisma.VideoScalarWhereInput | Prisma.VideoScalarWhereInput[]
-}
-
-export type NullableStringFieldUpdateOperationsInput = {
-  set?: string | null
+export type StringFieldUpdateOperationsInput = {
+  set?: string
 }
 
 export type EnumVideoStatusFieldUpdateOperationsInput = {
   set?: $Enums.VideoStatus
 }
 
-export type EnumVideoVisibilityFieldUpdateOperationsInput = {
-  set?: $Enums.VideoVisibility
-}
-
-export type NullableIntFieldUpdateOperationsInput = {
-  set?: number | null
+export type IntFieldUpdateOperationsInput = {
+  set?: number
   increment?: number
   decrement?: number
   multiply?: number
   divide?: number
 }
 
-export type VideoCreateNestedOneWithoutRenditionsInput = {
-  create?: Prisma.XOR<Prisma.VideoCreateWithoutRenditionsInput, Prisma.VideoUncheckedCreateWithoutRenditionsInput>
-  connectOrCreate?: Prisma.VideoCreateOrConnectWithoutRenditionsInput
-  connect?: Prisma.VideoWhereUniqueInput
-}
-
-export type VideoUpdateOneRequiredWithoutRenditionsNestedInput = {
-  create?: Prisma.XOR<Prisma.VideoCreateWithoutRenditionsInput, Prisma.VideoUncheckedCreateWithoutRenditionsInput>
-  connectOrCreate?: Prisma.VideoCreateOrConnectWithoutRenditionsInput
-  upsert?: Prisma.VideoUpsertWithoutRenditionsInput
-  connect?: Prisma.VideoWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.VideoUpdateToOneWithWhereWithoutRenditionsInput, Prisma.VideoUpdateWithoutRenditionsInput>, Prisma.VideoUncheckedUpdateWithoutRenditionsInput>
-}
-
-export type VideoCreateNestedOneWithoutTranscodeJobsInput = {
-  create?: Prisma.XOR<Prisma.VideoCreateWithoutTranscodeJobsInput, Prisma.VideoUncheckedCreateWithoutTranscodeJobsInput>
-  connectOrCreate?: Prisma.VideoCreateOrConnectWithoutTranscodeJobsInput
-  connect?: Prisma.VideoWhereUniqueInput
-}
-
-export type VideoUpdateOneRequiredWithoutTranscodeJobsNestedInput = {
-  create?: Prisma.XOR<Prisma.VideoCreateWithoutTranscodeJobsInput, Prisma.VideoUncheckedCreateWithoutTranscodeJobsInput>
-  connectOrCreate?: Prisma.VideoCreateOrConnectWithoutTranscodeJobsInput
-  upsert?: Prisma.VideoUpsertWithoutTranscodeJobsInput
-  connect?: Prisma.VideoWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.VideoUpdateToOneWithWhereWithoutTranscodeJobsInput, Prisma.VideoUpdateWithoutTranscodeJobsInput>, Prisma.VideoUncheckedUpdateWithoutTranscodeJobsInput>
+export type DateTimeFieldUpdateOperationsInput = {
+  set?: Date | string
 }
 
 export type VideoCreateNestedOneWithoutUploadSessionsInput = {
@@ -601,258 +439,24 @@ export type VideoUpdateOneRequiredWithoutUploadSessionsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.VideoUpdateToOneWithWhereWithoutUploadSessionsInput, Prisma.VideoUpdateWithoutUploadSessionsInput>, Prisma.VideoUncheckedUpdateWithoutUploadSessionsInput>
 }
 
-export type VideoCreateWithoutUserInput = {
-  id?: string
-  title?: string | null
-  description?: string | null
-  status?: $Enums.VideoStatus
-  visibility?: $Enums.VideoVisibility
-  durationSeconds?: number | null
-  masterPlaylistKey?: string | null
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  renditions?: Prisma.VideoRenditionCreateNestedManyWithoutVideoInput
-  transcodeJobs?: Prisma.TranscodeJobCreateNestedManyWithoutVideoInput
-  uploadSessions?: Prisma.UploadSessionCreateNestedManyWithoutVideoInput
-}
-
-export type VideoUncheckedCreateWithoutUserInput = {
-  id?: string
-  title?: string | null
-  description?: string | null
-  status?: $Enums.VideoStatus
-  visibility?: $Enums.VideoVisibility
-  durationSeconds?: number | null
-  masterPlaylistKey?: string | null
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  renditions?: Prisma.VideoRenditionUncheckedCreateNestedManyWithoutVideoInput
-  transcodeJobs?: Prisma.TranscodeJobUncheckedCreateNestedManyWithoutVideoInput
-  uploadSessions?: Prisma.UploadSessionUncheckedCreateNestedManyWithoutVideoInput
-}
-
-export type VideoCreateOrConnectWithoutUserInput = {
-  where: Prisma.VideoWhereUniqueInput
-  create: Prisma.XOR<Prisma.VideoCreateWithoutUserInput, Prisma.VideoUncheckedCreateWithoutUserInput>
-}
-
-export type VideoCreateManyUserInputEnvelope = {
-  data: Prisma.VideoCreateManyUserInput | Prisma.VideoCreateManyUserInput[]
-  skipDuplicates?: boolean
-}
-
-export type VideoUpsertWithWhereUniqueWithoutUserInput = {
-  where: Prisma.VideoWhereUniqueInput
-  update: Prisma.XOR<Prisma.VideoUpdateWithoutUserInput, Prisma.VideoUncheckedUpdateWithoutUserInput>
-  create: Prisma.XOR<Prisma.VideoCreateWithoutUserInput, Prisma.VideoUncheckedCreateWithoutUserInput>
-}
-
-export type VideoUpdateWithWhereUniqueWithoutUserInput = {
-  where: Prisma.VideoWhereUniqueInput
-  data: Prisma.XOR<Prisma.VideoUpdateWithoutUserInput, Prisma.VideoUncheckedUpdateWithoutUserInput>
-}
-
-export type VideoUpdateManyWithWhereWithoutUserInput = {
-  where: Prisma.VideoScalarWhereInput
-  data: Prisma.XOR<Prisma.VideoUpdateManyMutationInput, Prisma.VideoUncheckedUpdateManyWithoutUserInput>
-}
-
-export type VideoScalarWhereInput = {
-  AND?: Prisma.VideoScalarWhereInput | Prisma.VideoScalarWhereInput[]
-  OR?: Prisma.VideoScalarWhereInput[]
-  NOT?: Prisma.VideoScalarWhereInput | Prisma.VideoScalarWhereInput[]
-  id?: Prisma.StringFilter<"Video"> | string
-  userId?: Prisma.StringFilter<"Video"> | string
-  title?: Prisma.StringNullableFilter<"Video"> | string | null
-  description?: Prisma.StringNullableFilter<"Video"> | string | null
-  status?: Prisma.EnumVideoStatusFilter<"Video"> | $Enums.VideoStatus
-  visibility?: Prisma.EnumVideoVisibilityFilter<"Video"> | $Enums.VideoVisibility
-  durationSeconds?: Prisma.IntNullableFilter<"Video"> | number | null
-  masterPlaylistKey?: Prisma.StringNullableFilter<"Video"> | string | null
-  createdAt?: Prisma.DateTimeFilter<"Video"> | Date | string
-  updatedAt?: Prisma.DateTimeFilter<"Video"> | Date | string
-}
-
-export type VideoCreateWithoutRenditionsInput = {
-  id?: string
-  title?: string | null
-  description?: string | null
-  status?: $Enums.VideoStatus
-  visibility?: $Enums.VideoVisibility
-  durationSeconds?: number | null
-  masterPlaylistKey?: string | null
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  user: Prisma.UserCreateNestedOneWithoutVideosInput
-  transcodeJobs?: Prisma.TranscodeJobCreateNestedManyWithoutVideoInput
-  uploadSessions?: Prisma.UploadSessionCreateNestedManyWithoutVideoInput
-}
-
-export type VideoUncheckedCreateWithoutRenditionsInput = {
-  id?: string
-  userId: string
-  title?: string | null
-  description?: string | null
-  status?: $Enums.VideoStatus
-  visibility?: $Enums.VideoVisibility
-  durationSeconds?: number | null
-  masterPlaylistKey?: string | null
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  transcodeJobs?: Prisma.TranscodeJobUncheckedCreateNestedManyWithoutVideoInput
-  uploadSessions?: Prisma.UploadSessionUncheckedCreateNestedManyWithoutVideoInput
-}
-
-export type VideoCreateOrConnectWithoutRenditionsInput = {
-  where: Prisma.VideoWhereUniqueInput
-  create: Prisma.XOR<Prisma.VideoCreateWithoutRenditionsInput, Prisma.VideoUncheckedCreateWithoutRenditionsInput>
-}
-
-export type VideoUpsertWithoutRenditionsInput = {
-  update: Prisma.XOR<Prisma.VideoUpdateWithoutRenditionsInput, Prisma.VideoUncheckedUpdateWithoutRenditionsInput>
-  create: Prisma.XOR<Prisma.VideoCreateWithoutRenditionsInput, Prisma.VideoUncheckedCreateWithoutRenditionsInput>
-  where?: Prisma.VideoWhereInput
-}
-
-export type VideoUpdateToOneWithWhereWithoutRenditionsInput = {
-  where?: Prisma.VideoWhereInput
-  data: Prisma.XOR<Prisma.VideoUpdateWithoutRenditionsInput, Prisma.VideoUncheckedUpdateWithoutRenditionsInput>
-}
-
-export type VideoUpdateWithoutRenditionsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  status?: Prisma.EnumVideoStatusFieldUpdateOperationsInput | $Enums.VideoStatus
-  visibility?: Prisma.EnumVideoVisibilityFieldUpdateOperationsInput | $Enums.VideoVisibility
-  durationSeconds?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  masterPlaylistKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  user?: Prisma.UserUpdateOneRequiredWithoutVideosNestedInput
-  transcodeJobs?: Prisma.TranscodeJobUpdateManyWithoutVideoNestedInput
-  uploadSessions?: Prisma.UploadSessionUpdateManyWithoutVideoNestedInput
-}
-
-export type VideoUncheckedUpdateWithoutRenditionsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  userId?: Prisma.StringFieldUpdateOperationsInput | string
-  title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  status?: Prisma.EnumVideoStatusFieldUpdateOperationsInput | $Enums.VideoStatus
-  visibility?: Prisma.EnumVideoVisibilityFieldUpdateOperationsInput | $Enums.VideoVisibility
-  durationSeconds?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  masterPlaylistKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  transcodeJobs?: Prisma.TranscodeJobUncheckedUpdateManyWithoutVideoNestedInput
-  uploadSessions?: Prisma.UploadSessionUncheckedUpdateManyWithoutVideoNestedInput
-}
-
-export type VideoCreateWithoutTranscodeJobsInput = {
-  id?: string
-  title?: string | null
-  description?: string | null
-  status?: $Enums.VideoStatus
-  visibility?: $Enums.VideoVisibility
-  durationSeconds?: number | null
-  masterPlaylistKey?: string | null
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  user: Prisma.UserCreateNestedOneWithoutVideosInput
-  renditions?: Prisma.VideoRenditionCreateNestedManyWithoutVideoInput
-  uploadSessions?: Prisma.UploadSessionCreateNestedManyWithoutVideoInput
-}
-
-export type VideoUncheckedCreateWithoutTranscodeJobsInput = {
-  id?: string
-  userId: string
-  title?: string | null
-  description?: string | null
-  status?: $Enums.VideoStatus
-  visibility?: $Enums.VideoVisibility
-  durationSeconds?: number | null
-  masterPlaylistKey?: string | null
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  renditions?: Prisma.VideoRenditionUncheckedCreateNestedManyWithoutVideoInput
-  uploadSessions?: Prisma.UploadSessionUncheckedCreateNestedManyWithoutVideoInput
-}
-
-export type VideoCreateOrConnectWithoutTranscodeJobsInput = {
-  where: Prisma.VideoWhereUniqueInput
-  create: Prisma.XOR<Prisma.VideoCreateWithoutTranscodeJobsInput, Prisma.VideoUncheckedCreateWithoutTranscodeJobsInput>
-}
-
-export type VideoUpsertWithoutTranscodeJobsInput = {
-  update: Prisma.XOR<Prisma.VideoUpdateWithoutTranscodeJobsInput, Prisma.VideoUncheckedUpdateWithoutTranscodeJobsInput>
-  create: Prisma.XOR<Prisma.VideoCreateWithoutTranscodeJobsInput, Prisma.VideoUncheckedCreateWithoutTranscodeJobsInput>
-  where?: Prisma.VideoWhereInput
-}
-
-export type VideoUpdateToOneWithWhereWithoutTranscodeJobsInput = {
-  where?: Prisma.VideoWhereInput
-  data: Prisma.XOR<Prisma.VideoUpdateWithoutTranscodeJobsInput, Prisma.VideoUncheckedUpdateWithoutTranscodeJobsInput>
-}
-
-export type VideoUpdateWithoutTranscodeJobsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  status?: Prisma.EnumVideoStatusFieldUpdateOperationsInput | $Enums.VideoStatus
-  visibility?: Prisma.EnumVideoVisibilityFieldUpdateOperationsInput | $Enums.VideoVisibility
-  durationSeconds?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  masterPlaylistKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  user?: Prisma.UserUpdateOneRequiredWithoutVideosNestedInput
-  renditions?: Prisma.VideoRenditionUpdateManyWithoutVideoNestedInput
-  uploadSessions?: Prisma.UploadSessionUpdateManyWithoutVideoNestedInput
-}
-
-export type VideoUncheckedUpdateWithoutTranscodeJobsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  userId?: Prisma.StringFieldUpdateOperationsInput | string
-  title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  status?: Prisma.EnumVideoStatusFieldUpdateOperationsInput | $Enums.VideoStatus
-  visibility?: Prisma.EnumVideoVisibilityFieldUpdateOperationsInput | $Enums.VideoVisibility
-  durationSeconds?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  masterPlaylistKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  renditions?: Prisma.VideoRenditionUncheckedUpdateManyWithoutVideoNestedInput
-  uploadSessions?: Prisma.UploadSessionUncheckedUpdateManyWithoutVideoNestedInput
-}
-
 export type VideoCreateWithoutUploadSessionsInput = {
-  id?: string
-  title?: string | null
-  description?: string | null
+  videoId?: string
+  videoChannel: string
+  title: string
+  description: string
   status?: $Enums.VideoStatus
-  visibility?: $Enums.VideoVisibility
-  durationSeconds?: number | null
-  masterPlaylistKey?: string | null
+  durationSeconds: number
   createdAt?: Date | string
-  updatedAt?: Date | string
-  user: Prisma.UserCreateNestedOneWithoutVideosInput
-  renditions?: Prisma.VideoRenditionCreateNestedManyWithoutVideoInput
-  transcodeJobs?: Prisma.TranscodeJobCreateNestedManyWithoutVideoInput
 }
 
 export type VideoUncheckedCreateWithoutUploadSessionsInput = {
-  id?: string
-  userId: string
-  title?: string | null
-  description?: string | null
+  videoId?: string
+  videoChannel: string
+  title: string
+  description: string
   status?: $Enums.VideoStatus
-  visibility?: $Enums.VideoVisibility
-  durationSeconds?: number | null
-  masterPlaylistKey?: string | null
+  durationSeconds: number
   createdAt?: Date | string
-  updatedAt?: Date | string
-  renditions?: Prisma.VideoRenditionUncheckedCreateNestedManyWithoutVideoInput
-  transcodeJobs?: Prisma.TranscodeJobUncheckedCreateNestedManyWithoutVideoInput
 }
 
 export type VideoCreateOrConnectWithoutUploadSessionsInput = {
@@ -872,87 +476,23 @@ export type VideoUpdateToOneWithWhereWithoutUploadSessionsInput = {
 }
 
 export type VideoUpdateWithoutUploadSessionsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  videoId?: Prisma.StringFieldUpdateOperationsInput | string
+  videoChannel?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumVideoStatusFieldUpdateOperationsInput | $Enums.VideoStatus
-  visibility?: Prisma.EnumVideoVisibilityFieldUpdateOperationsInput | $Enums.VideoVisibility
-  durationSeconds?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  masterPlaylistKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  durationSeconds?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  user?: Prisma.UserUpdateOneRequiredWithoutVideosNestedInput
-  renditions?: Prisma.VideoRenditionUpdateManyWithoutVideoNestedInput
-  transcodeJobs?: Prisma.TranscodeJobUpdateManyWithoutVideoNestedInput
 }
 
 export type VideoUncheckedUpdateWithoutUploadSessionsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  userId?: Prisma.StringFieldUpdateOperationsInput | string
-  title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  videoId?: Prisma.StringFieldUpdateOperationsInput | string
+  videoChannel?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumVideoStatusFieldUpdateOperationsInput | $Enums.VideoStatus
-  visibility?: Prisma.EnumVideoVisibilityFieldUpdateOperationsInput | $Enums.VideoVisibility
-  durationSeconds?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  masterPlaylistKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  durationSeconds?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  renditions?: Prisma.VideoRenditionUncheckedUpdateManyWithoutVideoNestedInput
-  transcodeJobs?: Prisma.TranscodeJobUncheckedUpdateManyWithoutVideoNestedInput
-}
-
-export type VideoCreateManyUserInput = {
-  id?: string
-  title?: string | null
-  description?: string | null
-  status?: $Enums.VideoStatus
-  visibility?: $Enums.VideoVisibility
-  durationSeconds?: number | null
-  masterPlaylistKey?: string | null
-  createdAt?: Date | string
-  updatedAt?: Date | string
-}
-
-export type VideoUpdateWithoutUserInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  status?: Prisma.EnumVideoStatusFieldUpdateOperationsInput | $Enums.VideoStatus
-  visibility?: Prisma.EnumVideoVisibilityFieldUpdateOperationsInput | $Enums.VideoVisibility
-  durationSeconds?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  masterPlaylistKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  renditions?: Prisma.VideoRenditionUpdateManyWithoutVideoNestedInput
-  transcodeJobs?: Prisma.TranscodeJobUpdateManyWithoutVideoNestedInput
-  uploadSessions?: Prisma.UploadSessionUpdateManyWithoutVideoNestedInput
-}
-
-export type VideoUncheckedUpdateWithoutUserInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  status?: Prisma.EnumVideoStatusFieldUpdateOperationsInput | $Enums.VideoStatus
-  visibility?: Prisma.EnumVideoVisibilityFieldUpdateOperationsInput | $Enums.VideoVisibility
-  durationSeconds?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  masterPlaylistKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  renditions?: Prisma.VideoRenditionUncheckedUpdateManyWithoutVideoNestedInput
-  transcodeJobs?: Prisma.TranscodeJobUncheckedUpdateManyWithoutVideoNestedInput
-  uploadSessions?: Prisma.UploadSessionUncheckedUpdateManyWithoutVideoNestedInput
-}
-
-export type VideoUncheckedUpdateManyWithoutUserInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  status?: Prisma.EnumVideoStatusFieldUpdateOperationsInput | $Enums.VideoStatus
-  visibility?: Prisma.EnumVideoVisibilityFieldUpdateOperationsInput | $Enums.VideoVisibility
-  durationSeconds?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  masterPlaylistKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 
@@ -961,14 +501,10 @@ export type VideoUncheckedUpdateManyWithoutUserInput = {
  */
 
 export type VideoCountOutputType = {
-  renditions: number
-  transcodeJobs: number
   uploadSessions: number
 }
 
 export type VideoCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  renditions?: boolean | VideoCountOutputTypeCountRenditionsArgs
-  transcodeJobs?: boolean | VideoCountOutputTypeCountTranscodeJobsArgs
   uploadSessions?: boolean | VideoCountOutputTypeCountUploadSessionsArgs
 }
 
@@ -985,118 +521,74 @@ export type VideoCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extens
 /**
  * VideoCountOutputType without action
  */
-export type VideoCountOutputTypeCountRenditionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.VideoRenditionWhereInput
-}
-
-/**
- * VideoCountOutputType without action
- */
-export type VideoCountOutputTypeCountTranscodeJobsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.TranscodeJobWhereInput
-}
-
-/**
- * VideoCountOutputType without action
- */
 export type VideoCountOutputTypeCountUploadSessionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.UploadSessionWhereInput
 }
 
 
 export type VideoSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
-  id?: boolean
-  userId?: boolean
+  videoId?: boolean
+  videoChannel?: boolean
   title?: boolean
   description?: boolean
   status?: boolean
-  visibility?: boolean
   durationSeconds?: boolean
-  masterPlaylistKey?: boolean
   createdAt?: boolean
-  updatedAt?: boolean
-  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
-  renditions?: boolean | Prisma.Video$renditionsArgs<ExtArgs>
-  transcodeJobs?: boolean | Prisma.Video$transcodeJobsArgs<ExtArgs>
   uploadSessions?: boolean | Prisma.Video$uploadSessionsArgs<ExtArgs>
   _count?: boolean | Prisma.VideoCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["video"]>
 
 export type VideoSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
-  id?: boolean
-  userId?: boolean
+  videoId?: boolean
+  videoChannel?: boolean
   title?: boolean
   description?: boolean
   status?: boolean
-  visibility?: boolean
   durationSeconds?: boolean
-  masterPlaylistKey?: boolean
   createdAt?: boolean
-  updatedAt?: boolean
-  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["video"]>
 
 export type VideoSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
-  id?: boolean
-  userId?: boolean
+  videoId?: boolean
+  videoChannel?: boolean
   title?: boolean
   description?: boolean
   status?: boolean
-  visibility?: boolean
   durationSeconds?: boolean
-  masterPlaylistKey?: boolean
   createdAt?: boolean
-  updatedAt?: boolean
-  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["video"]>
 
 export type VideoSelectScalar = {
-  id?: boolean
-  userId?: boolean
+  videoId?: boolean
+  videoChannel?: boolean
   title?: boolean
   description?: boolean
   status?: boolean
-  visibility?: boolean
   durationSeconds?: boolean
-  masterPlaylistKey?: boolean
   createdAt?: boolean
-  updatedAt?: boolean
 }
 
-export type VideoOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "title" | "description" | "status" | "visibility" | "durationSeconds" | "masterPlaylistKey" | "createdAt" | "updatedAt", ExtArgs["result"]["video"]>
+export type VideoOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"videoId" | "videoChannel" | "title" | "description" | "status" | "durationSeconds" | "createdAt", ExtArgs["result"]["video"]>
 export type VideoInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
-  renditions?: boolean | Prisma.Video$renditionsArgs<ExtArgs>
-  transcodeJobs?: boolean | Prisma.Video$transcodeJobsArgs<ExtArgs>
   uploadSessions?: boolean | Prisma.Video$uploadSessionsArgs<ExtArgs>
   _count?: boolean | Prisma.VideoCountOutputTypeDefaultArgs<ExtArgs>
 }
-export type VideoIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
-}
-export type VideoIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
-}
+export type VideoIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
+export type VideoIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
 
 export type $VideoPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Video"
   objects: {
-    user: Prisma.$UserPayload<ExtArgs>
-    renditions: Prisma.$VideoRenditionPayload<ExtArgs>[]
-    transcodeJobs: Prisma.$TranscodeJobPayload<ExtArgs>[]
     uploadSessions: Prisma.$UploadSessionPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
-    id: string
-    userId: string
-    title: string | null
-    description: string | null
+    videoId: string
+    videoChannel: string
+    title: string
+    description: string
     status: $Enums.VideoStatus
-    visibility: $Enums.VideoVisibility
-    durationSeconds: number | null
-    masterPlaylistKey: string | null
+    durationSeconds: number
     createdAt: Date
-    updatedAt: Date
   }, ExtArgs["result"]["video"]>
   composites: {}
 }
@@ -1180,8 +672,8 @@ export interface VideoDelegate<ExtArgs extends runtime.Types.Extensions.Internal
    * // Get first 10 Videos
    * const videos = await prisma.video.findMany({ take: 10 })
    * 
-   * // Only select the `id`
-   * const videoWithIdOnly = await prisma.video.findMany({ select: { id: true } })
+   * // Only select the `videoId`
+   * const videoWithVideoIdOnly = await prisma.video.findMany({ select: { videoId: true } })
    * 
    */
   findMany<T extends VideoFindManyArgs>(args?: Prisma.SelectSubset<T, VideoFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$VideoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
@@ -1225,9 +717,9 @@ export interface VideoDelegate<ExtArgs extends runtime.Types.Extensions.Internal
    *   ]
    * })
    * 
-   * // Create many Videos and only return the `id`
-   * const videoWithIdOnly = await prisma.video.createManyAndReturn({
-   *   select: { id: true },
+   * // Create many Videos and only return the `videoId`
+   * const videoWithVideoIdOnly = await prisma.video.createManyAndReturn({
+   *   select: { videoId: true },
    *   data: [
    *     // ... provide data here
    *   ]
@@ -1316,9 +808,9 @@ export interface VideoDelegate<ExtArgs extends runtime.Types.Extensions.Internal
    *   ]
    * })
    * 
-   * // Update zero or more Videos and only return the `id`
-   * const videoWithIdOnly = await prisma.video.updateManyAndReturn({
-   *   select: { id: true },
+   * // Update zero or more Videos and only return the `videoId`
+   * const videoWithVideoIdOnly = await prisma.video.updateManyAndReturn({
+   *   select: { videoId: true },
    *   where: {
    *     // ... provide filter here
    *   },
@@ -1491,9 +983,6 @@ readonly fields: VideoFieldRefs;
  */
 export interface Prisma__VideoClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  user<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-  renditions<T extends Prisma.Video$renditionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Video$renditionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$VideoRenditionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  transcodeJobs<T extends Prisma.Video$transcodeJobsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Video$transcodeJobsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TranscodeJobPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   uploadSessions<T extends Prisma.Video$uploadSessionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Video$uploadSessionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$UploadSessionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -1524,16 +1013,13 @@ export interface Prisma__VideoClient<T, Null = never, ExtArgs extends runtime.Ty
  * Fields of the Video model
  */
 export interface VideoFieldRefs {
-  readonly id: Prisma.FieldRef<"Video", 'String'>
-  readonly userId: Prisma.FieldRef<"Video", 'String'>
+  readonly videoId: Prisma.FieldRef<"Video", 'String'>
+  readonly videoChannel: Prisma.FieldRef<"Video", 'String'>
   readonly title: Prisma.FieldRef<"Video", 'String'>
   readonly description: Prisma.FieldRef<"Video", 'String'>
   readonly status: Prisma.FieldRef<"Video", 'VideoStatus'>
-  readonly visibility: Prisma.FieldRef<"Video", 'VideoVisibility'>
   readonly durationSeconds: Prisma.FieldRef<"Video", 'Int'>
-  readonly masterPlaylistKey: Prisma.FieldRef<"Video", 'String'>
   readonly createdAt: Prisma.FieldRef<"Video", 'DateTime'>
-  readonly updatedAt: Prisma.FieldRef<"Video", 'DateTime'>
 }
     
 
@@ -1788,10 +1274,6 @@ export type VideoCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Extension
    */
   data: Prisma.VideoCreateManyInput | Prisma.VideoCreateManyInput[]
   skipDuplicates?: boolean
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.VideoIncludeCreateManyAndReturn<ExtArgs> | null
 }
 
 /**
@@ -1862,10 +1344,6 @@ export type VideoUpdateManyAndReturnArgs<ExtArgs extends runtime.Types.Extension
    * Limit how many Videos to update.
    */
   limit?: number
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.VideoIncludeUpdateManyAndReturn<ExtArgs> | null
 }
 
 /**
@@ -1932,54 +1410,6 @@ export type VideoDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Interna
    * Limit how many Videos to delete.
    */
   limit?: number
-}
-
-/**
- * Video.renditions
- */
-export type Video$renditionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the VideoRendition
-   */
-  select?: Prisma.VideoRenditionSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the VideoRendition
-   */
-  omit?: Prisma.VideoRenditionOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.VideoRenditionInclude<ExtArgs> | null
-  where?: Prisma.VideoRenditionWhereInput
-  orderBy?: Prisma.VideoRenditionOrderByWithRelationInput | Prisma.VideoRenditionOrderByWithRelationInput[]
-  cursor?: Prisma.VideoRenditionWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.VideoRenditionScalarFieldEnum | Prisma.VideoRenditionScalarFieldEnum[]
-}
-
-/**
- * Video.transcodeJobs
- */
-export type Video$transcodeJobsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the TranscodeJob
-   */
-  select?: Prisma.TranscodeJobSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the TranscodeJob
-   */
-  omit?: Prisma.TranscodeJobOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.TranscodeJobInclude<ExtArgs> | null
-  where?: Prisma.TranscodeJobWhereInput
-  orderBy?: Prisma.TranscodeJobOrderByWithRelationInput | Prisma.TranscodeJobOrderByWithRelationInput[]
-  cursor?: Prisma.TranscodeJobWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.TranscodeJobScalarFieldEnum | Prisma.TranscodeJobScalarFieldEnum[]
 }
 
 /**

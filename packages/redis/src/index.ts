@@ -1,24 +1,22 @@
 import { createClient, type RedisClientType } from "redis";
 
-const TRANSCODE_REQUEST_STREAM = "encodeflow:transcode";
-
-const TRANSCODE_REQUEST_CONSUMER_GROUP_360p = "encodeflow:360p:consumer";
-const TRANSCODE_REQUEST_CONSUMER_GROUP_720p = "encodeflow:720p:consumer";
-const TRANSCODE_REQUEST_CONSUMER_GROUP_480p = "encodeflow:480p:consumer";
-
+const STREAM_KEY = "encodeflow:transcode";
+const GROUP_NAME = "encodeflow:transcoder";
+const CONSUMER_NAME = "encodeflow:transcoder:consumer";
+const BLOCK_MS = 5000;
+const READ_COUNT = 10;
+  
 export type TranscodeRequestPayload = {
-  jobId: string;
   videoId: string;
   uploadSessionId: string;
   inputKey: string;
   outputBaseKey: string;
-  qualities: ["1080p", "720p", "480p"];
-  attempt: number;
-  maxAttempts: number;
-  priority: number;
-  traceId?: string;
-  createdAtMs: number;
 };
+
+export type RedisObject = {
+  id: string;
+  fields: Record<string, string>
+}
 
 export async function redisClient() {
   const client = createClient({ url: process.env.REDIS_URL });
@@ -28,11 +26,32 @@ export async function redisClient() {
 
 
 
-export async function xAddTranscodeRequest(payload: TranscodeRequestPayload): Promise<string> {
+export async function xAddTranscodeRequest(uploadSessionId: string, inputKey: string, outputBaseKey: string): Promise<string> {
   const client = await redisClient();
-  const result = await client.xAdd(TRANSCODE_REQUEST_STREAM, "*", {
-    payload: JSON.stringify(payload),
+  const result = await client.xAdd(STREAM_KEY, "*", {
+    payload: JSON.stringify({
+      uploadSessionId,
+      inputKey,
+      outputBaseKey,
+    }),
   });
   return result;
 }
 
+
+export async function xReadTranscodeRequest(): Promise<RedisObject[]> {
+  const client = await redisClient();
+  const res = await client.xReadGroup(
+    GROUP_NAME,
+    CONSUMER_NAME,
+    [{ key: STREAM_KEY, id: ">" }],
+    { BLOCK: BLOCK_MS, COUNT: READ_COUNT }
+  );
+  return res as RedisObject[];
+}
+
+
+export async function xAckTranscodeRequest(id: string): Promise<void> {
+  const client = await redisClient();
+  await client.xAck(STREAM_KEY, GROUP_NAME, id);
+}

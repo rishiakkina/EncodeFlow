@@ -37,7 +37,7 @@ yarn-error.log*
 dist/
 
 # cursor generated plans
-.cursor/plans/
+.cursor/
 
 # typescript incremental build info
 *.tsbuildinfo

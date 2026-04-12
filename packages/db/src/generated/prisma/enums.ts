@@ -19,15 +19,6 @@ export const VideoStatus = {
 export type VideoStatus = (typeof VideoStatus)[keyof typeof VideoStatus]
 
 
-export const VideoVisibility = {
-  PUBLIC: 'PUBLIC',
-  UNLISTED: 'UNLISTED',
-  PRIVATE: 'PRIVATE'
-} as const
-
-export type VideoVisibility = (typeof VideoVisibility)[keyof typeof VideoVisibility]
-
-
 export const UploadSessionStatus = {
   READY_FOR_UPLOAD: 'READY_FOR_UPLOAD',
   UPLOADING: 'UPLOADING',
@@ -36,23 +27,3 @@ export const UploadSessionStatus = {
 } as const
 
 export type UploadSessionStatus = (typeof UploadSessionStatus)[keyof typeof UploadSessionStatus]
-
-
-export const TranscodeJobState = {
-  PENDING: 'PENDING',
-  RUNNING: 'RUNNING',
-  COMPLETED: 'COMPLETED',
-  FAILED: 'FAILED'
-} as const
-
-export type TranscodeJobState = (typeof TranscodeJobState)[keyof typeof TranscodeJobState]
-
-
-export const VideoRenditionStatus = {
-  PENDING: 'PENDING',
-  PROCESSING: 'PROCESSING',
-  READY: 'READY',
-  FAILED: 'FAILED'
-} as const
-
-export type VideoRenditionStatus = (typeof VideoRenditionStatus)[keyof typeof VideoRenditionStatus]

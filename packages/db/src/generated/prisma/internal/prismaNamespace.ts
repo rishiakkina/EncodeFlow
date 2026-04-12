@@ -80,12 +80,12 @@ export type PrismaVersion = {
 }
 
 /**
- * Prisma Client JS version: 7.5.0
- * Query Engine version: 280c870be64f457428992c43c1f6d557fab6e29e
+ * Prisma Client JS version: 7.6.0
+ * Query Engine version: 75cbdc1eb7150937890ad5465d861175c6624711
  */
 export const prismaVersion: PrismaVersion = {
-  client: "7.5.0",
-  engine: "280c870be64f457428992c43c1f6d557fab6e29e"
+  client: "7.6.0",
+  engine: "75cbdc1eb7150937890ad5465d861175c6624711"
 }
 
 /**
@@ -384,10 +384,7 @@ type FieldRefInputType<Model, FieldType> = Model extends never ? never : FieldRe
 
 
 export const ModelName = {
-  User: 'User',
   Video: 'Video',
-  VideoRendition: 'VideoRendition',
-  TranscodeJob: 'TranscodeJob',
   UploadSession: 'UploadSession'
 } as const
 
@@ -404,84 +401,10 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "video" | "videoRendition" | "transcodeJob" | "uploadSession"
+    modelProps: "video" | "uploadSession"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
-    User: {
-      payload: Prisma.$UserPayload<ExtArgs>
-      fields: Prisma.UserFieldRefs
-      operations: {
-        findUnique: {
-          args: Prisma.UserFindUniqueArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserPayload> | null
-        }
-        findUniqueOrThrow: {
-          args: Prisma.UserFindUniqueOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserPayload>
-        }
-        findFirst: {
-          args: Prisma.UserFindFirstArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserPayload> | null
-        }
-        findFirstOrThrow: {
-          args: Prisma.UserFindFirstOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserPayload>
-        }
-        findMany: {
-          args: Prisma.UserFindManyArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserPayload>[]
-        }
-        create: {
-          args: Prisma.UserCreateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserPayload>
-        }
-        createMany: {
-          args: Prisma.UserCreateManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        createManyAndReturn: {
-          args: Prisma.UserCreateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserPayload>[]
-        }
-        delete: {
-          args: Prisma.UserDeleteArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserPayload>
-        }
-        update: {
-          args: Prisma.UserUpdateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserPayload>
-        }
-        deleteMany: {
-          args: Prisma.UserDeleteManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        updateMany: {
-          args: Prisma.UserUpdateManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        updateManyAndReturn: {
-          args: Prisma.UserUpdateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserPayload>[]
-        }
-        upsert: {
-          args: Prisma.UserUpsertArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserPayload>
-        }
-        aggregate: {
-          args: Prisma.UserAggregateArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.AggregateUser>
-        }
-        groupBy: {
-          args: Prisma.UserGroupByArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.UserGroupByOutputType>[]
-        }
-        count: {
-          args: Prisma.UserCountArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.UserCountAggregateOutputType> | number
-        }
-      }
-    }
     Video: {
       payload: Prisma.$VideoPayload<ExtArgs>
       fields: Prisma.VideoFieldRefs
@@ -553,154 +476,6 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         count: {
           args: Prisma.VideoCountArgs<ExtArgs>
           result: runtime.Types.Utils.Optional<Prisma.VideoCountAggregateOutputType> | number
-        }
-      }
-    }
-    VideoRendition: {
-      payload: Prisma.$VideoRenditionPayload<ExtArgs>
-      fields: Prisma.VideoRenditionFieldRefs
-      operations: {
-        findUnique: {
-          args: Prisma.VideoRenditionFindUniqueArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$VideoRenditionPayload> | null
-        }
-        findUniqueOrThrow: {
-          args: Prisma.VideoRenditionFindUniqueOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$VideoRenditionPayload>
-        }
-        findFirst: {
-          args: Prisma.VideoRenditionFindFirstArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$VideoRenditionPayload> | null
-        }
-        findFirstOrThrow: {
-          args: Prisma.VideoRenditionFindFirstOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$VideoRenditionPayload>
-        }
-        findMany: {
-          args: Prisma.VideoRenditionFindManyArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$VideoRenditionPayload>[]
-        }
-        create: {
-          args: Prisma.VideoRenditionCreateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$VideoRenditionPayload>
-        }
-        createMany: {
-          args: Prisma.VideoRenditionCreateManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        createManyAndReturn: {
-          args: Prisma.VideoRenditionCreateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$VideoRenditionPayload>[]
-        }
-        delete: {
-          args: Prisma.VideoRenditionDeleteArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$VideoRenditionPayload>
-        }
-        update: {
-          args: Prisma.VideoRenditionUpdateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$VideoRenditionPayload>
-        }
-        deleteMany: {
-          args: Prisma.VideoRenditionDeleteManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        updateMany: {
-          args: Prisma.VideoRenditionUpdateManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        updateManyAndReturn: {
-          args: Prisma.VideoRenditionUpdateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$VideoRenditionPayload>[]
-        }
-        upsert: {
-          args: Prisma.VideoRenditionUpsertArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$VideoRenditionPayload>
-        }
-        aggregate: {
-          args: Prisma.VideoRenditionAggregateArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.AggregateVideoRendition>
-        }
-        groupBy: {
-          args: Prisma.VideoRenditionGroupByArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.VideoRenditionGroupByOutputType>[]
-        }
-        count: {
-          args: Prisma.VideoRenditionCountArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.VideoRenditionCountAggregateOutputType> | number
-        }
-      }
-    }
-    TranscodeJob: {
-      payload: Prisma.$TranscodeJobPayload<ExtArgs>
-      fields: Prisma.TranscodeJobFieldRefs
-      operations: {
-        findUnique: {
-          args: Prisma.TranscodeJobFindUniqueArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$TranscodeJobPayload> | null
-        }
-        findUniqueOrThrow: {
-          args: Prisma.TranscodeJobFindUniqueOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$TranscodeJobPayload>
-        }
-        findFirst: {
-          args: Prisma.TranscodeJobFindFirstArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$TranscodeJobPayload> | null
-        }
-        findFirstOrThrow: {
-          args: Prisma.TranscodeJobFindFirstOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$TranscodeJobPayload>
-        }
-        findMany: {
-          args: Prisma.TranscodeJobFindManyArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$TranscodeJobPayload>[]
-        }
-        create: {
-          args: Prisma.TranscodeJobCreateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$TranscodeJobPayload>
-        }
-        createMany: {
-          args: Prisma.TranscodeJobCreateManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        createManyAndReturn: {
-          args: Prisma.TranscodeJobCreateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$TranscodeJobPayload>[]
-        }
-        delete: {
-          args: Prisma.TranscodeJobDeleteArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$TranscodeJobPayload>
-        }
-        update: {
-          args: Prisma.TranscodeJobUpdateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$TranscodeJobPayload>
-        }
-        deleteMany: {
-          args: Prisma.TranscodeJobDeleteManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        updateMany: {
-          args: Prisma.TranscodeJobUpdateManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        updateManyAndReturn: {
-          args: Prisma.TranscodeJobUpdateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$TranscodeJobPayload>[]
-        }
-        upsert: {
-          args: Prisma.TranscodeJobUpsertArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$TranscodeJobPayload>
-        }
-        aggregate: {
-          args: Prisma.TranscodeJobAggregateArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.AggregateTranscodeJob>
-        }
-        groupBy: {
-          args: Prisma.TranscodeJobGroupByArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.TranscodeJobGroupByOutputType>[]
-        }
-        count: {
-          args: Prisma.TranscodeJobCountArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.TranscodeJobCountAggregateOutputType> | number
         }
       }
     }
@@ -817,78 +592,27 @@ export const TransactionIsolationLevel = runtime.makeStrictEnum({
 export type TransactionIsolationLevel = (typeof TransactionIsolationLevel)[keyof typeof TransactionIsolationLevel]
 
 
-export const UserScalarFieldEnum = {
-  id: 'id',
-  email: 'email',
-  password: 'password',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
-} as const
-
-export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
-
-
 export const VideoScalarFieldEnum = {
-  id: 'id',
-  userId: 'userId',
+  videoId: 'videoId',
+  videoChannel: 'videoChannel',
   title: 'title',
   description: 'description',
   status: 'status',
-  visibility: 'visibility',
   durationSeconds: 'durationSeconds',
-  masterPlaylistKey: 'masterPlaylistKey',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  createdAt: 'createdAt'
 } as const
 
 export type VideoScalarFieldEnum = (typeof VideoScalarFieldEnum)[keyof typeof VideoScalarFieldEnum]
 
 
-export const VideoRenditionScalarFieldEnum = {
-  id: 'id',
-  videoId: 'videoId',
-  resolution: 'resolution',
-  bitrateKbps: 'bitrateKbps',
-  codec: 'codec',
-  status: 'status',
-  manifestKey: 'manifestKey',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
-} as const
-
-export type VideoRenditionScalarFieldEnum = (typeof VideoRenditionScalarFieldEnum)[keyof typeof VideoRenditionScalarFieldEnum]
-
-
-export const TranscodeJobScalarFieldEnum = {
-  id: 'id',
-  videoId: 'videoId',
-  attempt: 'attempt',
-  state: 'state',
-  priority: 'priority',
-  traceId: 'traceId',
-  inputKey: 'inputKey',
-  outputBaseKey: 'outputBaseKey',
-  profiles: 'profiles',
-  errorReason: 'errorReason',
-  createdAt: 'createdAt',
-  startedAt: 'startedAt',
-  finishedAt: 'finishedAt',
-  updatedAt: 'updatedAt'
-} as const
-
-export type TranscodeJobScalarFieldEnum = (typeof TranscodeJobScalarFieldEnum)[keyof typeof TranscodeJobScalarFieldEnum]
-
-
 export const UploadSessionScalarFieldEnum = {
   id: 'id',
-  userId: 'userId',
   videoId: 'videoId',
   status: 'status',
   originalFilename: 'originalFilename',
   contentType: 'contentType',
   sizeBytes: 'sizeBytes',
   s3Key: 's3Key',
-  etag: 'etag',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -902,14 +626,6 @@ export const SortOrder = {
 } as const
 
 export type SortOrder = (typeof SortOrder)[keyof typeof SortOrder]
-
-
-export const NullableJsonNullValueInput = {
-  DbNull: DbNull,
-  JsonNull: JsonNull
-} as const
-
-export type NullableJsonNullValueInput = (typeof NullableJsonNullValueInput)[keyof typeof NullableJsonNullValueInput]
 
 
 export const QueryMode = {
@@ -926,15 +642,6 @@ export const NullsOrder = {
 } as const
 
 export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
-
-
-export const JsonNullValueFilter = {
-  DbNull: DbNull,
-  JsonNull: JsonNull,
-  AnyNull: AnyNull
-} as const
-
-export type JsonNullValueFilter = (typeof JsonNullValueFilter)[keyof typeof JsonNullValueFilter]
 
 
 
@@ -958,20 +665,6 @@ export type ListStringFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaMod
 
 
 /**
- * Reference to a field of type 'DateTime'
- */
-export type DateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime'>
-    
-
-
-/**
- * Reference to a field of type 'DateTime[]'
- */
-export type ListDateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime[]'>
-    
-
-
-/**
  * Reference to a field of type 'VideoStatus'
  */
 export type EnumVideoStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'VideoStatus'>
@@ -982,20 +675,6 @@ export type EnumVideoStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$Pris
  * Reference to a field of type 'VideoStatus[]'
  */
 export type ListEnumVideoStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'VideoStatus[]'>
-    
-
-
-/**
- * Reference to a field of type 'VideoVisibility'
- */
-export type EnumVideoVisibilityFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'VideoVisibility'>
-    
-
-
-/**
- * Reference to a field of type 'VideoVisibility[]'
- */
-export type ListEnumVideoVisibilityFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'VideoVisibility[]'>
     
 
 
@@ -1014,44 +693,16 @@ export type ListIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel,
 
 
 /**
- * Reference to a field of type 'VideoRenditionStatus'
+ * Reference to a field of type 'DateTime'
  */
-export type EnumVideoRenditionStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'VideoRenditionStatus'>
+export type DateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime'>
     
 
 
 /**
- * Reference to a field of type 'VideoRenditionStatus[]'
+ * Reference to a field of type 'DateTime[]'
  */
-export type ListEnumVideoRenditionStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'VideoRenditionStatus[]'>
-    
-
-
-/**
- * Reference to a field of type 'TranscodeJobState'
- */
-export type EnumTranscodeJobStateFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'TranscodeJobState'>
-    
-
-
-/**
- * Reference to a field of type 'TranscodeJobState[]'
- */
-export type ListEnumTranscodeJobStateFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'TranscodeJobState[]'>
-    
-
-
-/**
- * Reference to a field of type 'Json'
- */
-export type JsonFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Json'>
-    
-
-
-/**
- * Reference to a field of type 'QueryMode'
- */
-export type EnumQueryModeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'QueryMode'>
+export type ListDateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime[]'>
     
 
 
@@ -1191,10 +842,7 @@ export type PrismaClientOptions = ({
   comments?: runtime.SqlCommenterPlugin[]
 }
 export type GlobalOmitConfig = {
-  user?: Prisma.UserOmit
   video?: Prisma.VideoOmit
-  videoRendition?: Prisma.VideoRenditionOmit
-  transcodeJob?: Prisma.TranscodeJobOmit
   uploadSession?: Prisma.UploadSessionOmit
 }
 

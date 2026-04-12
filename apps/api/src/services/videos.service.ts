@@ -1,12 +1,13 @@
 import { randomUUID } from "crypto";
-import client from "@repo/db/client";
-
+import client from "@repo/db";
 export type VideoStatus = "UPLOADING" | "PROCESSING" | "READY" | "FAILED";
 
 export type Video = {
-  id: string;
-  status: VideoStatus;
-  createdAt: string;
+  videoId: string;
+  videoTitle: string;
+  videoChannel: string;
+  videoDescription: string;
+  videoDuration: number;
 };
 
 export type ListVideosResult = {
@@ -16,29 +17,64 @@ export type ListVideosResult = {
   };
 };
 
-export function listVideos(limit: number): ListVideosResult {
+export async function listVideos(limit: number): Promise<ListVideosResult> {
   // TODO: Authenticate and list videos for the authenticated user.
-  return {
-    items: Array.from({ length: limit }).map(() => ({
-      id: randomUUID(),
+  const videos = await client.video.findMany({
+    where: {
       status: "READY",
-      createdAt: new Date().toISOString(),
+    },
+    orderBy: {
+      createdAt: "desc",
+    },
+    take: limit,
+  });
+  return {
+    items: videos.map((video) => ({
+      videoId: video.videoId,
+      videoTitle: video.title,
+      videoChannel: video.videoChannel,
+      videoDescription: video.description,
+      videoDuration: video.durationSeconds,
     })),
     pageInfo: { nextCursor: null },
   };
 }
 
-export function getVideo(videoId: string): Video {
-  // TODO: Fetch from DB and include renditions + playback metadata when ready.
+export async function getVideo(videoId: string): Promise<Video> {
+  const video = await client.video.findUnique({
+    where: {
+      videoId: videoId,
+    },
+  });
+  if (!video) {
+    throw new Error("Video not found");
+  }
   return {
-    id: videoId,
-    status: "PROCESSING",
-    createdAt: new Date().toISOString(),
+    videoId: video.videoId,
+    videoTitle: video.title,
+    videoChannel: video.videoChannel,
+    videoDescription: video.description,
+    videoDuration: video.durationSeconds,
   };
 }
 
-export function getVideoStatus(videoId: string): { videoId: string; status: VideoStatus } {
-  // TODO: Return per-rendition states and job progress if you track it.
-  return { videoId, status: "PROCESSING" };
+export async function getRecommendedVideos(limit: number, excludeVideoId: string): Promise<Video[]> {
+  const videos = await client.video.findMany({
+    where: {
+      videoId: {
+        not: excludeVideoId,
+      },
+    },
+    take: limit,
+    orderBy: {
+      createdAt: "desc",
+    },
+  });
+  return videos.map((video) => ({
+    videoId: video.videoId,
+    videoTitle: video.title,
+    videoChannel: video.videoChannel,
+    videoDescription: video.description,
+    videoDuration: video.durationSeconds,
+  }));
 }
-

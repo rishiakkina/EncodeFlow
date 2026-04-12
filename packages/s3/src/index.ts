@@ -2,6 +2,7 @@ import {
   GetObjectCommand,
   PutObjectCommand,
   PutObjectCommandOutput,
+  GetObjectCommandOutput,
   S3Client,
 } from "@aws-sdk/client-s3";
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
@@ -26,6 +27,14 @@ export type PresignedPutUrlParams = {
   expiresInSeconds?: number;
 };
 
+export async function getCommand(client: S3Client, params: PresignedGetUrlParams): Promise<GetObjectCommand> {
+  return new GetObjectCommand({
+    Bucket: params.bucket,
+    Key: params.key
+  });
+}
+
+
 export async function getPresignedPutUrl(
   client: S3Client,
   params: PresignedPutUrlParams,
@@ -33,7 +42,7 @@ export async function getPresignedPutUrl(
   const command = new PutObjectCommand({
     Bucket: params.bucket,
     Key: params.key,
-    ContentType: params.contentType
+    ContentType: params.contentType,
   });
 
   return getSignedUrl(client, command, {
@@ -73,9 +82,7 @@ export async function getPresignedGetUrl(
     Key: params.key,
   });
 
-  return getSignedUrl(client, command, {
-    expiresIn: params.expiresInSeconds ?? DEFAULT_PRESIGN_EXPIRES,
-  });
+  return getSignedUrl(client, command);
 }
 
 // export type HeadObjectParams = {

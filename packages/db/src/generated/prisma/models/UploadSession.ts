@@ -36,42 +36,36 @@ export type UploadSessionSumAggregateOutputType = {
 
 export type UploadSessionMinAggregateOutputType = {
   id: string | null
-  userId: string | null
   videoId: string | null
   status: $Enums.UploadSessionStatus | null
   originalFilename: string | null
   contentType: string | null
   sizeBytes: bigint | null
   s3Key: string | null
-  etag: string | null
   createdAt: Date | null
   updatedAt: Date | null
 }
 
 export type UploadSessionMaxAggregateOutputType = {
   id: string | null
-  userId: string | null
   videoId: string | null
   status: $Enums.UploadSessionStatus | null
   originalFilename: string | null
   contentType: string | null
   sizeBytes: bigint | null
   s3Key: string | null
-  etag: string | null
   createdAt: Date | null
   updatedAt: Date | null
 }
 
 export type UploadSessionCountAggregateOutputType = {
   id: number
-  userId: number
   videoId: number
   status: number
   originalFilename: number
   contentType: number
   sizeBytes: number
   s3Key: number
-  etag: number
   createdAt: number
   updatedAt: number
   _all: number
@@ -88,42 +82,36 @@ export type UploadSessionSumAggregateInputType = {
 
 export type UploadSessionMinAggregateInputType = {
   id?: true
-  userId?: true
   videoId?: true
   status?: true
   originalFilename?: true
   contentType?: true
   sizeBytes?: true
   s3Key?: true
-  etag?: true
   createdAt?: true
   updatedAt?: true
 }
 
 export type UploadSessionMaxAggregateInputType = {
   id?: true
-  userId?: true
   videoId?: true
   status?: true
   originalFilename?: true
   contentType?: true
   sizeBytes?: true
   s3Key?: true
-  etag?: true
   createdAt?: true
   updatedAt?: true
 }
 
 export type UploadSessionCountAggregateInputType = {
   id?: true
-  userId?: true
   videoId?: true
   status?: true
   originalFilename?: true
   contentType?: true
   sizeBytes?: true
   s3Key?: true
-  etag?: true
   createdAt?: true
   updatedAt?: true
   _all?: true
@@ -217,14 +205,12 @@ export type UploadSessionGroupByArgs<ExtArgs extends runtime.Types.Extensions.In
 
 export type UploadSessionGroupByOutputType = {
   id: string
-  userId: string
   videoId: string
   status: $Enums.UploadSessionStatus
   originalFilename: string
   contentType: string
   sizeBytes: bigint
   s3Key: string | null
-  etag: string | null
   createdAt: Date
   updatedAt: Date
   _count: UploadSessionCountAggregateOutputType | null
@@ -234,7 +220,7 @@ export type UploadSessionGroupByOutputType = {
   _max: UploadSessionMaxAggregateOutputType | null
 }
 
-type GetUploadSessionGroupByPayload<T extends UploadSessionGroupByArgs> = Prisma.PrismaPromise<
+export type GetUploadSessionGroupByPayload<T extends UploadSessionGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<UploadSessionGroupByOutputType, T['by']> &
       {
@@ -254,33 +240,27 @@ export type UploadSessionWhereInput = {
   OR?: Prisma.UploadSessionWhereInput[]
   NOT?: Prisma.UploadSessionWhereInput | Prisma.UploadSessionWhereInput[]
   id?: Prisma.StringFilter<"UploadSession"> | string
-  userId?: Prisma.StringFilter<"UploadSession"> | string
   videoId?: Prisma.StringFilter<"UploadSession"> | string
   status?: Prisma.EnumUploadSessionStatusFilter<"UploadSession"> | $Enums.UploadSessionStatus
   originalFilename?: Prisma.StringFilter<"UploadSession"> | string
   contentType?: Prisma.StringFilter<"UploadSession"> | string
   sizeBytes?: Prisma.BigIntFilter<"UploadSession"> | bigint | number
   s3Key?: Prisma.StringNullableFilter<"UploadSession"> | string | null
-  etag?: Prisma.StringNullableFilter<"UploadSession"> | string | null
   createdAt?: Prisma.DateTimeFilter<"UploadSession"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"UploadSession"> | Date | string
-  user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   video?: Prisma.XOR<Prisma.VideoScalarRelationFilter, Prisma.VideoWhereInput>
 }
 
 export type UploadSessionOrderByWithRelationInput = {
   id?: Prisma.SortOrder
-  userId?: Prisma.SortOrder
   videoId?: Prisma.SortOrder
   status?: Prisma.SortOrder
   originalFilename?: Prisma.SortOrder
   contentType?: Prisma.SortOrder
   sizeBytes?: Prisma.SortOrder
   s3Key?: Prisma.SortOrderInput | Prisma.SortOrder
-  etag?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
-  user?: Prisma.UserOrderByWithRelationInput
   video?: Prisma.VideoOrderByWithRelationInput
 }
 
@@ -289,30 +269,25 @@ export type UploadSessionWhereUniqueInput = Prisma.AtLeast<{
   AND?: Prisma.UploadSessionWhereInput | Prisma.UploadSessionWhereInput[]
   OR?: Prisma.UploadSessionWhereInput[]
   NOT?: Prisma.UploadSessionWhereInput | Prisma.UploadSessionWhereInput[]
-  userId?: Prisma.StringFilter<"UploadSession"> | string
   videoId?: Prisma.StringFilter<"UploadSession"> | string
   status?: Prisma.EnumUploadSessionStatusFilter<"UploadSession"> | $Enums.UploadSessionStatus
   originalFilename?: Prisma.StringFilter<"UploadSession"> | string
   contentType?: Prisma.StringFilter<"UploadSession"> | string
   sizeBytes?: Prisma.BigIntFilter<"UploadSession"> | bigint | number
   s3Key?: Prisma.StringNullableFilter<"UploadSession"> | string | null
-  etag?: Prisma.StringNullableFilter<"UploadSession"> | string | null
   createdAt?: Prisma.DateTimeFilter<"UploadSession"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"UploadSession"> | Date | string
-  user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   video?: Prisma.XOR<Prisma.VideoScalarRelationFilter, Prisma.VideoWhereInput>
 }, "id">
 
 export type UploadSessionOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
-  userId?: Prisma.SortOrder
   videoId?: Prisma.SortOrder
   status?: Prisma.SortOrder
   originalFilename?: Prisma.SortOrder
   contentType?: Prisma.SortOrder
   sizeBytes?: Prisma.SortOrder
   s3Key?: Prisma.SortOrderInput | Prisma.SortOrder
-  etag?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.UploadSessionCountOrderByAggregateInput
@@ -327,14 +302,12 @@ export type UploadSessionScalarWhereWithAggregatesInput = {
   OR?: Prisma.UploadSessionScalarWhereWithAggregatesInput[]
   NOT?: Prisma.UploadSessionScalarWhereWithAggregatesInput | Prisma.UploadSessionScalarWhereWithAggregatesInput[]
   id?: Prisma.StringWithAggregatesFilter<"UploadSession"> | string
-  userId?: Prisma.StringWithAggregatesFilter<"UploadSession"> | string
   videoId?: Prisma.StringWithAggregatesFilter<"UploadSession"> | string
   status?: Prisma.EnumUploadSessionStatusWithAggregatesFilter<"UploadSession"> | $Enums.UploadSessionStatus
   originalFilename?: Prisma.StringWithAggregatesFilter<"UploadSession"> | string
   contentType?: Prisma.StringWithAggregatesFilter<"UploadSession"> | string
   sizeBytes?: Prisma.BigIntWithAggregatesFilter<"UploadSession"> | bigint | number
   s3Key?: Prisma.StringNullableWithAggregatesFilter<"UploadSession"> | string | null
-  etag?: Prisma.StringNullableWithAggregatesFilter<"UploadSession"> | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"UploadSession"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"UploadSession"> | Date | string
 }
@@ -346,23 +319,19 @@ export type UploadSessionCreateInput = {
   contentType: string
   sizeBytes: bigint | number
   s3Key?: string | null
-  etag?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  user: Prisma.UserCreateNestedOneWithoutUploadSessionsInput
   video: Prisma.VideoCreateNestedOneWithoutUploadSessionsInput
 }
 
 export type UploadSessionUncheckedCreateInput = {
   id?: string
-  userId: string
   videoId: string
   status?: $Enums.UploadSessionStatus
   originalFilename: string
   contentType: string
   sizeBytes: bigint | number
   s3Key?: string | null
-  etag?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -374,37 +343,31 @@ export type UploadSessionUpdateInput = {
   contentType?: Prisma.StringFieldUpdateOperationsInput | string
   sizeBytes?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   s3Key?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  etag?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  user?: Prisma.UserUpdateOneRequiredWithoutUploadSessionsNestedInput
   video?: Prisma.VideoUpdateOneRequiredWithoutUploadSessionsNestedInput
 }
 
 export type UploadSessionUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  userId?: Prisma.StringFieldUpdateOperationsInput | string
   videoId?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumUploadSessionStatusFieldUpdateOperationsInput | $Enums.UploadSessionStatus
   originalFilename?: Prisma.StringFieldUpdateOperationsInput | string
   contentType?: Prisma.StringFieldUpdateOperationsInput | string
   sizeBytes?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   s3Key?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  etag?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type UploadSessionCreateManyInput = {
   id?: string
-  userId: string
   videoId: string
   status?: $Enums.UploadSessionStatus
   originalFilename: string
   contentType: string
   sizeBytes: bigint | number
   s3Key?: string | null
-  etag?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -416,21 +379,18 @@ export type UploadSessionUpdateManyMutationInput = {
   contentType?: Prisma.StringFieldUpdateOperationsInput | string
   sizeBytes?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   s3Key?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  etag?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type UploadSessionUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  userId?: Prisma.StringFieldUpdateOperationsInput | string
   videoId?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumUploadSessionStatusFieldUpdateOperationsInput | $Enums.UploadSessionStatus
   originalFilename?: Prisma.StringFieldUpdateOperationsInput | string
   contentType?: Prisma.StringFieldUpdateOperationsInput | string
   sizeBytes?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   s3Key?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  etag?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -447,14 +407,12 @@ export type UploadSessionOrderByRelationAggregateInput = {
 
 export type UploadSessionCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  userId?: Prisma.SortOrder
   videoId?: Prisma.SortOrder
   status?: Prisma.SortOrder
   originalFilename?: Prisma.SortOrder
   contentType?: Prisma.SortOrder
   sizeBytes?: Prisma.SortOrder
   s3Key?: Prisma.SortOrder
-  etag?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -465,76 +423,30 @@ export type UploadSessionAvgOrderByAggregateInput = {
 
 export type UploadSessionMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  userId?: Prisma.SortOrder
   videoId?: Prisma.SortOrder
   status?: Prisma.SortOrder
   originalFilename?: Prisma.SortOrder
   contentType?: Prisma.SortOrder
   sizeBytes?: Prisma.SortOrder
   s3Key?: Prisma.SortOrder
-  etag?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
 
 export type UploadSessionMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  userId?: Prisma.SortOrder
   videoId?: Prisma.SortOrder
   status?: Prisma.SortOrder
   originalFilename?: Prisma.SortOrder
   contentType?: Prisma.SortOrder
   sizeBytes?: Prisma.SortOrder
   s3Key?: Prisma.SortOrder
-  etag?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
 
 export type UploadSessionSumOrderByAggregateInput = {
   sizeBytes?: Prisma.SortOrder
-}
-
-export type UploadSessionCreateNestedManyWithoutUserInput = {
-  create?: Prisma.XOR<Prisma.UploadSessionCreateWithoutUserInput, Prisma.UploadSessionUncheckedCreateWithoutUserInput> | Prisma.UploadSessionCreateWithoutUserInput[] | Prisma.UploadSessionUncheckedCreateWithoutUserInput[]
-  connectOrCreate?: Prisma.UploadSessionCreateOrConnectWithoutUserInput | Prisma.UploadSessionCreateOrConnectWithoutUserInput[]
-  createMany?: Prisma.UploadSessionCreateManyUserInputEnvelope
-  connect?: Prisma.UploadSessionWhereUniqueInput | Prisma.UploadSessionWhereUniqueInput[]
-}
-
-export type UploadSessionUncheckedCreateNestedManyWithoutUserInput = {
-  create?: Prisma.XOR<Prisma.UploadSessionCreateWithoutUserInput, Prisma.UploadSessionUncheckedCreateWithoutUserInput> | Prisma.UploadSessionCreateWithoutUserInput[] | Prisma.UploadSessionUncheckedCreateWithoutUserInput[]
-  connectOrCreate?: Prisma.UploadSessionCreateOrConnectWithoutUserInput | Prisma.UploadSessionCreateOrConnectWithoutUserInput[]
-  createMany?: Prisma.UploadSessionCreateManyUserInputEnvelope
-  connect?: Prisma.UploadSessionWhereUniqueInput | Prisma.UploadSessionWhereUniqueInput[]
-}
-
-export type UploadSessionUpdateManyWithoutUserNestedInput = {
-  create?: Prisma.XOR<Prisma.UploadSessionCreateWithoutUserInput, Prisma.UploadSessionUncheckedCreateWithoutUserInput> | Prisma.UploadSessionCreateWithoutUserInput[] | Prisma.UploadSessionUncheckedCreateWithoutUserInput[]
-  connectOrCreate?: Prisma.UploadSessionCreateOrConnectWithoutUserInput | Prisma.UploadSessionCreateOrConnectWithoutUserInput[]
-  upsert?: Prisma.UploadSessionUpsertWithWhereUniqueWithoutUserInput | Prisma.UploadSessionUpsertWithWhereUniqueWithoutUserInput[]
-  createMany?: Prisma.UploadSessionCreateManyUserInputEnvelope
-  set?: Prisma.UploadSessionWhereUniqueInput | Prisma.UploadSessionWhereUniqueInput[]
-  disconnect?: Prisma.UploadSessionWhereUniqueInput | Prisma.UploadSessionWhereUniqueInput[]
-  delete?: Prisma.UploadSessionWhereUniqueInput | Prisma.UploadSessionWhereUniqueInput[]
-  connect?: Prisma.UploadSessionWhereUniqueInput | Prisma.UploadSessionWhereUniqueInput[]
-  update?: Prisma.UploadSessionUpdateWithWhereUniqueWithoutUserInput | Prisma.UploadSessionUpdateWithWhereUniqueWithoutUserInput[]
-  updateMany?: Prisma.UploadSessionUpdateManyWithWhereWithoutUserInput | Prisma.UploadSessionUpdateManyWithWhereWithoutUserInput[]
-  deleteMany?: Prisma.UploadSessionScalarWhereInput | Prisma.UploadSessionScalarWhereInput[]
-}
-
-export type UploadSessionUncheckedUpdateManyWithoutUserNestedInput = {
-  create?: Prisma.XOR<Prisma.UploadSessionCreateWithoutUserInput, Prisma.UploadSessionUncheckedCreateWithoutUserInput> | Prisma.UploadSessionCreateWithoutUserInput[] | Prisma.UploadSessionUncheckedCreateWithoutUserInput[]
-  connectOrCreate?: Prisma.UploadSessionCreateOrConnectWithoutUserInput | Prisma.UploadSessionCreateOrConnectWithoutUserInput[]
-  upsert?: Prisma.UploadSessionUpsertWithWhereUniqueWithoutUserInput | Prisma.UploadSessionUpsertWithWhereUniqueWithoutUserInput[]
-  createMany?: Prisma.UploadSessionCreateManyUserInputEnvelope
-  set?: Prisma.UploadSessionWhereUniqueInput | Prisma.UploadSessionWhereUniqueInput[]
-  disconnect?: Prisma.UploadSessionWhereUniqueInput | Prisma.UploadSessionWhereUniqueInput[]
-  delete?: Prisma.UploadSessionWhereUniqueInput | Prisma.UploadSessionWhereUniqueInput[]
-  connect?: Prisma.UploadSessionWhereUniqueInput | Prisma.UploadSessionWhereUniqueInput[]
-  update?: Prisma.UploadSessionUpdateWithWhereUniqueWithoutUserInput | Prisma.UploadSessionUpdateWithWhereUniqueWithoutUserInput[]
-  updateMany?: Prisma.UploadSessionUpdateManyWithWhereWithoutUserInput | Prisma.UploadSessionUpdateManyWithWhereWithoutUserInput[]
-  deleteMany?: Prisma.UploadSessionScalarWhereInput | Prisma.UploadSessionScalarWhereInput[]
 }
 
 export type UploadSessionCreateNestedManyWithoutVideoInput = {
@@ -591,73 +503,8 @@ export type BigIntFieldUpdateOperationsInput = {
   divide?: bigint | number
 }
 
-export type UploadSessionCreateWithoutUserInput = {
-  id?: string
-  status?: $Enums.UploadSessionStatus
-  originalFilename: string
-  contentType: string
-  sizeBytes: bigint | number
-  s3Key?: string | null
-  etag?: string | null
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  video: Prisma.VideoCreateNestedOneWithoutUploadSessionsInput
-}
-
-export type UploadSessionUncheckedCreateWithoutUserInput = {
-  id?: string
-  videoId: string
-  status?: $Enums.UploadSessionStatus
-  originalFilename: string
-  contentType: string
-  sizeBytes: bigint | number
-  s3Key?: string | null
-  etag?: string | null
-  createdAt?: Date | string
-  updatedAt?: Date | string
-}
-
-export type UploadSessionCreateOrConnectWithoutUserInput = {
-  where: Prisma.UploadSessionWhereUniqueInput
-  create: Prisma.XOR<Prisma.UploadSessionCreateWithoutUserInput, Prisma.UploadSessionUncheckedCreateWithoutUserInput>
-}
-
-export type UploadSessionCreateManyUserInputEnvelope = {
-  data: Prisma.UploadSessionCreateManyUserInput | Prisma.UploadSessionCreateManyUserInput[]
-  skipDuplicates?: boolean
-}
-
-export type UploadSessionUpsertWithWhereUniqueWithoutUserInput = {
-  where: Prisma.UploadSessionWhereUniqueInput
-  update: Prisma.XOR<Prisma.UploadSessionUpdateWithoutUserInput, Prisma.UploadSessionUncheckedUpdateWithoutUserInput>
-  create: Prisma.XOR<Prisma.UploadSessionCreateWithoutUserInput, Prisma.UploadSessionUncheckedCreateWithoutUserInput>
-}
-
-export type UploadSessionUpdateWithWhereUniqueWithoutUserInput = {
-  where: Prisma.UploadSessionWhereUniqueInput
-  data: Prisma.XOR<Prisma.UploadSessionUpdateWithoutUserInput, Prisma.UploadSessionUncheckedUpdateWithoutUserInput>
-}
-
-export type UploadSessionUpdateManyWithWhereWithoutUserInput = {
-  where: Prisma.UploadSessionScalarWhereInput
-  data: Prisma.XOR<Prisma.UploadSessionUpdateManyMutationInput, Prisma.UploadSessionUncheckedUpdateManyWithoutUserInput>
-}
-
-export type UploadSessionScalarWhereInput = {
-  AND?: Prisma.UploadSessionScalarWhereInput | Prisma.UploadSessionScalarWhereInput[]
-  OR?: Prisma.UploadSessionScalarWhereInput[]
-  NOT?: Prisma.UploadSessionScalarWhereInput | Prisma.UploadSessionScalarWhereInput[]
-  id?: Prisma.StringFilter<"UploadSession"> | string
-  userId?: Prisma.StringFilter<"UploadSession"> | string
-  videoId?: Prisma.StringFilter<"UploadSession"> | string
-  status?: Prisma.EnumUploadSessionStatusFilter<"UploadSession"> | $Enums.UploadSessionStatus
-  originalFilename?: Prisma.StringFilter<"UploadSession"> | string
-  contentType?: Prisma.StringFilter<"UploadSession"> | string
-  sizeBytes?: Prisma.BigIntFilter<"UploadSession"> | bigint | number
-  s3Key?: Prisma.StringNullableFilter<"UploadSession"> | string | null
-  etag?: Prisma.StringNullableFilter<"UploadSession"> | string | null
-  createdAt?: Prisma.DateTimeFilter<"UploadSession"> | Date | string
-  updatedAt?: Prisma.DateTimeFilter<"UploadSession"> | Date | string
+export type NullableStringFieldUpdateOperationsInput = {
+  set?: string | null
 }
 
 export type UploadSessionCreateWithoutVideoInput = {
@@ -667,21 +514,17 @@ export type UploadSessionCreateWithoutVideoInput = {
   contentType: string
   sizeBytes: bigint | number
   s3Key?: string | null
-  etag?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  user: Prisma.UserCreateNestedOneWithoutUploadSessionsInput
 }
 
 export type UploadSessionUncheckedCreateWithoutVideoInput = {
   id?: string
-  userId: string
   status?: $Enums.UploadSessionStatus
   originalFilename: string
   contentType: string
   sizeBytes: bigint | number
   s3Key?: string | null
-  etag?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -712,67 +555,28 @@ export type UploadSessionUpdateManyWithWhereWithoutVideoInput = {
   data: Prisma.XOR<Prisma.UploadSessionUpdateManyMutationInput, Prisma.UploadSessionUncheckedUpdateManyWithoutVideoInput>
 }
 
-export type UploadSessionCreateManyUserInput = {
-  id?: string
-  videoId: string
-  status?: $Enums.UploadSessionStatus
-  originalFilename: string
-  contentType: string
-  sizeBytes: bigint | number
-  s3Key?: string | null
-  etag?: string | null
-  createdAt?: Date | string
-  updatedAt?: Date | string
-}
-
-export type UploadSessionUpdateWithoutUserInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  status?: Prisma.EnumUploadSessionStatusFieldUpdateOperationsInput | $Enums.UploadSessionStatus
-  originalFilename?: Prisma.StringFieldUpdateOperationsInput | string
-  contentType?: Prisma.StringFieldUpdateOperationsInput | string
-  sizeBytes?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
-  s3Key?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  etag?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  video?: Prisma.VideoUpdateOneRequiredWithoutUploadSessionsNestedInput
-}
-
-export type UploadSessionUncheckedUpdateWithoutUserInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  videoId?: Prisma.StringFieldUpdateOperationsInput | string
-  status?: Prisma.EnumUploadSessionStatusFieldUpdateOperationsInput | $Enums.UploadSessionStatus
-  originalFilename?: Prisma.StringFieldUpdateOperationsInput | string
-  contentType?: Prisma.StringFieldUpdateOperationsInput | string
-  sizeBytes?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
-  s3Key?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  etag?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-}
-
-export type UploadSessionUncheckedUpdateManyWithoutUserInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  videoId?: Prisma.StringFieldUpdateOperationsInput | string
-  status?: Prisma.EnumUploadSessionStatusFieldUpdateOperationsInput | $Enums.UploadSessionStatus
-  originalFilename?: Prisma.StringFieldUpdateOperationsInput | string
-  contentType?: Prisma.StringFieldUpdateOperationsInput | string
-  sizeBytes?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
-  s3Key?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  etag?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+export type UploadSessionScalarWhereInput = {
+  AND?: Prisma.UploadSessionScalarWhereInput | Prisma.UploadSessionScalarWhereInput[]
+  OR?: Prisma.UploadSessionScalarWhereInput[]
+  NOT?: Prisma.UploadSessionScalarWhereInput | Prisma.UploadSessionScalarWhereInput[]
+  id?: Prisma.StringFilter<"UploadSession"> | string
+  videoId?: Prisma.StringFilter<"UploadSession"> | string
+  status?: Prisma.EnumUploadSessionStatusFilter<"UploadSession"> | $Enums.UploadSessionStatus
+  originalFilename?: Prisma.StringFilter<"UploadSession"> | string
+  contentType?: Prisma.StringFilter<"UploadSession"> | string
+  sizeBytes?: Prisma.BigIntFilter<"UploadSession"> | bigint | number
+  s3Key?: Prisma.StringNullableFilter<"UploadSession"> | string | null
+  createdAt?: Prisma.DateTimeFilter<"UploadSession"> | Date | string
+  updatedAt?: Prisma.DateTimeFilter<"UploadSession"> | Date | string
 }
 
 export type UploadSessionCreateManyVideoInput = {
   id?: string
-  userId: string
   status?: $Enums.UploadSessionStatus
   originalFilename: string
   contentType: string
   sizeBytes: bigint | number
   s3Key?: string | null
-  etag?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -784,34 +588,28 @@ export type UploadSessionUpdateWithoutVideoInput = {
   contentType?: Prisma.StringFieldUpdateOperationsInput | string
   sizeBytes?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   s3Key?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  etag?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  user?: Prisma.UserUpdateOneRequiredWithoutUploadSessionsNestedInput
 }
 
 export type UploadSessionUncheckedUpdateWithoutVideoInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  userId?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumUploadSessionStatusFieldUpdateOperationsInput | $Enums.UploadSessionStatus
   originalFilename?: Prisma.StringFieldUpdateOperationsInput | string
   contentType?: Prisma.StringFieldUpdateOperationsInput | string
   sizeBytes?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   s3Key?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  etag?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type UploadSessionUncheckedUpdateManyWithoutVideoInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  userId?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumUploadSessionStatusFieldUpdateOperationsInput | $Enums.UploadSessionStatus
   originalFilename?: Prisma.StringFieldUpdateOperationsInput | string
   contentType?: Prisma.StringFieldUpdateOperationsInput | string
   sizeBytes?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   s3Key?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  etag?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -820,96 +618,79 @@ export type UploadSessionUncheckedUpdateManyWithoutVideoInput = {
 
 export type UploadSessionSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  userId?: boolean
   videoId?: boolean
   status?: boolean
   originalFilename?: boolean
   contentType?: boolean
   sizeBytes?: boolean
   s3Key?: boolean
-  etag?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   video?: boolean | Prisma.VideoDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["uploadSession"]>
 
 export type UploadSessionSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  userId?: boolean
   videoId?: boolean
   status?: boolean
   originalFilename?: boolean
   contentType?: boolean
   sizeBytes?: boolean
   s3Key?: boolean
-  etag?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   video?: boolean | Prisma.VideoDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["uploadSession"]>
 
 export type UploadSessionSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  userId?: boolean
   videoId?: boolean
   status?: boolean
   originalFilename?: boolean
   contentType?: boolean
   sizeBytes?: boolean
   s3Key?: boolean
-  etag?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   video?: boolean | Prisma.VideoDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["uploadSession"]>
 
 export type UploadSessionSelectScalar = {
   id?: boolean
-  userId?: boolean
   videoId?: boolean
   status?: boolean
   originalFilename?: boolean
   contentType?: boolean
   sizeBytes?: boolean
   s3Key?: boolean
-  etag?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type UploadSessionOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "videoId" | "status" | "originalFilename" | "contentType" | "sizeBytes" | "s3Key" | "etag" | "createdAt" | "updatedAt", ExtArgs["result"]["uploadSession"]>
+export type UploadSessionOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "videoId" | "status" | "originalFilename" | "contentType" | "sizeBytes" | "s3Key" | "createdAt" | "updatedAt", ExtArgs["result"]["uploadSession"]>
 export type UploadSessionInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   video?: boolean | Prisma.VideoDefaultArgs<ExtArgs>
 }
 export type UploadSessionIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   video?: boolean | Prisma.VideoDefaultArgs<ExtArgs>
 }
 export type UploadSessionIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   video?: boolean | Prisma.VideoDefaultArgs<ExtArgs>
 }
 
 export type $UploadSessionPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "UploadSession"
   objects: {
-    user: Prisma.$UserPayload<ExtArgs>
     video: Prisma.$VideoPayload<ExtArgs>
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
-    userId: string
     videoId: string
     status: $Enums.UploadSessionStatus
     originalFilename: string
     contentType: string
     sizeBytes: bigint
     s3Key: string | null
-    etag: string | null
     createdAt: Date
     updatedAt: Date
   }, ExtArgs["result"]["uploadSession"]>
@@ -1306,7 +1087,6 @@ readonly fields: UploadSessionFieldRefs;
  */
 export interface Prisma__UploadSessionClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  user<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   video<T extends Prisma.VideoDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.VideoDefaultArgs<ExtArgs>>): Prisma.Prisma__VideoClient<runtime.Types.Result.GetResult<Prisma.$VideoPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -1338,14 +1118,12 @@ export interface Prisma__UploadSessionClient<T, Null = never, ExtArgs extends ru
  */
 export interface UploadSessionFieldRefs {
   readonly id: Prisma.FieldRef<"UploadSession", 'String'>
-  readonly userId: Prisma.FieldRef<"UploadSession", 'String'>
   readonly videoId: Prisma.FieldRef<"UploadSession", 'String'>
   readonly status: Prisma.FieldRef<"UploadSession", 'UploadSessionStatus'>
   readonly originalFilename: Prisma.FieldRef<"UploadSession", 'String'>
   readonly contentType: Prisma.FieldRef<"UploadSession", 'String'>
   readonly sizeBytes: Prisma.FieldRef<"UploadSession", 'BigInt'>
   readonly s3Key: Prisma.FieldRef<"UploadSession", 'String'>
-  readonly etag: Prisma.FieldRef<"UploadSession", 'String'>
   readonly createdAt: Prisma.FieldRef<"UploadSession", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"UploadSession", 'DateTime'>
 }

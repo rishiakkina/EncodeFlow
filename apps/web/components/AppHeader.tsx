@@ -2,8 +2,9 @@
 
 import Link from "next/link";
 import { useEffect, useId, useRef, useState } from "react";
-import { Bell, Mic, Search, Upload, User, Video, X } from "lucide-react";
+import { Search, Upload, User, Video, X } from "lucide-react";
 import axios from "axios";
+import Image from "next/image";
 
 export function AppHeader() {
   const dialogTitleId = useId();
@@ -32,14 +33,11 @@ export function AppHeader() {
     <>
       <header className="sticky top-0 z-40 flex items-center justify-between px-4 py-2 bg-zinc-950/95 backdrop-blur border-b border-zinc-800">
         <Link href="/" className="flex items-center gap-2">
-          <div className="flex h-8 w-8 items-center justify-center rounded-full bg-red-600 text-xs font-semibold">
-            EF
-          </div>
+          <Image width="48" height="48" src="/logo.png" alt="EncodeFlow"/>
           <div className="flex flex-col leading-[1.1]">
             <span className="text-lg font-semibold tracking-tight">
               EncodeFlow
             </span>
-            <span className="text-[10px] text-zinc-400 -mt-0.5">IN</span>
           </div>
         </Link>
 
@@ -54,9 +52,6 @@ export function AppHeader() {
               <Search className="h-4 w-4" />
             </button>
           </div>
-          <button className="ml-3 flex h-9 w-9 items-center justify-center rounded-full bg-zinc-900 hover:bg-zinc-800 border border-zinc-700">
-            <Mic className="h-4 w-4" />
-          </button>
         </div>
 
         <div className="flex items-center gap-3">
@@ -67,12 +62,6 @@ export function AppHeader() {
           >
             <Video className="h-4 w-4" />
             <span className="hidden text-sm font-medium sm:inline">Create</span>
-          </button>
-          <button
-            className="flex h-9 w-9 items-center justify-center rounded-full bg-zinc-900 hover:bg-zinc-800 border border-zinc-700"
-            type="button"
-          >
-            <Bell className="h-4 w-4" />
           </button>
           <button
             className="flex h-9 w-9 items-center justify-center rounded-full bg-sky-500 text-sm font-semibold"
@@ -122,7 +111,7 @@ export function AppHeader() {
                       {videoFile ? videoFile.name : "Choose a file"}
                     </div>
                     <div className="text-xs text-zinc-400">
-                      MP4, MOV, WebM (mock)
+                      MP4 only
                     </div>
                   </div>
                   <div className="flex h-9 w-9 items-center justify-center rounded-full bg-zinc-950 border border-zinc-800">
@@ -131,7 +120,7 @@ export function AppHeader() {
                   <input
                     className="hidden"
                     type="file"
-                    accept="video/*"
+                    accept="video/mp4"
                     onChange={(e) => setVideoFile(e.target.files?.[0] ?? null)}
                   />
                 </label>
@@ -175,21 +164,21 @@ export function AppHeader() {
               <button
                 disabled={!canUpload}
                 onClick={async () => {
-                  const response = await axios.post("http://localhost:3000/upload-sessions", {
+                  const apiBase = process.env.NEXT_PUBLIC_API_URL;
+                  const response = await axios.post(`${apiBase}/upload-sessions`, {
                     filename: videoFile?.name ?? "",
-                    contentType: videoFile?.type ?? "video/mp4"
+                    sizeBytes: videoFile?.size,
+                    title: name.trim(),
+                    description: description.trim(),
+                    videoChannel: "EncodeFlow Labs",
+                    durationSeconds: 0,
                   });
-                  const uploadResponse = await axios.put(response.data.upload.url, videoFile, {
+                  await axios.put(response.data.url, videoFile, {
                     headers: {
-                      "Content-Type": videoFile?.type ?? "video/mp4"
-                    }
+                      "Content-Type": "video/mp4",
+                    },
                   });
-                  console.log(uploadResponse.data);
-                  const completeResponse = await axios.post(`http://localhost:3000/upload-sessions/${response.data.uploadSessionId}/complete`, {
-                    s3Key: response.data.s3Key,
-                    etag: uploadResponse.data.etag
-                  });
-                  console.log(completeResponse.data);
+                  await axios.post(`${apiBase}/upload-sessions/${response.data.uploadSessionId}/complete`, { videoId: response.data.videoId });
                   closeAndReset();
                 }}
                 className="h-9 rounded-full bg-zinc-50 px-4 text-sm font-semibold text-zinc-950 hover:bg-zinc-200 disabled:cursor-not-allowed disabled:opacity-60"

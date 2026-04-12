@@ -1,6 +1,7 @@
 import { randomUUID } from "crypto";
 import { getPresignedPutUrl, s3Client } from "@repo/s3";
 import { xAddTranscodeRequest } from "@repo/redis";
+import client from "@repo/db";
 import dotenv from "dotenv";
 dotenv.config();
 
@@ -17,13 +18,16 @@ export type UploadSessionState = {
 
 export async function createUploadSession(input: {
   filename: string;
-  contentType: string;
-}): Promise<string> {
+  sizeBytes: number;
+  videoChannel: string;
+  title: string;
+  description: string;
+  durationSeconds: number;
+}): Promise<CreateUploadSessionResult> {
   const bucketName = process.env.AWS_BUCKET_NAME?.trim();
   if (!bucketName) {
     throw new Error("Missing AWS_BUCKET_NAME environment variable");
   }
-
   const videoId = randomUUID();
   const uploadSessionId = randomUUID();
 
@@ -34,54 +38,75 @@ export async function createUploadSession(input: {
   const url = await getPresignedPutUrl(s3Client, {
     bucket: bucketName,
     key: s3Key,
-    contentType: input.contentType,
+    contentType: "video/mp4",
   });
 
-  return url;
-}
+  console.log("url", url);
 
-export function getUploadSessionState(uploadSessionId: string): UploadSessionState {
-  // TODO: Look up session state in DB/Redis.
+  await client.video.create({
+    data: {
+      videoId,
+      videoChannel: input.videoChannel,
+      title: input.title,
+      description: input.description,
+      durationSeconds: input.durationSeconds
+    },
+  });
+
+  console.log("video created");
+
+  await client.uploadSession.create({
+    data: {
+      id: uploadSessionId,
+      videoId,
+      s3Key,
+      contentType: "video/mp4",
+      sizeBytes: input.sizeBytes,
+      originalFilename: input.filename
+    },
+  });
+
   return {
     uploadSessionId,
-    status: "READY_FOR_UPLOAD",
+    videoId,
+    url,
   };
 }
+
 
 export async function completeUploadSession(
   uploadSessionId: string,
-  input: { s3Key: string; etag?: string; sizeBytes?: number },
+  videoId: string
 ): Promise<{
   uploadSessionId: string;
   videoId: string;
-  jobIds: string[];
-  status: "ENQUEUED";
 }> {
-  // TODO: Validate/ffprobe input and write initial metadata to DB.
-
-  const videoId = randomUUID();
-  const jobId = randomUUID();
-  const createdAtMs = Date.now();
-  const outputBaseKey = `videos/${videoId}`;
-
-  await xAddTranscodeRequest({
-    jobId,
-    videoId,
-    uploadSessionId,
-    inputKey: input.s3Key,
-    outputBaseKey,
-    qualities: ["1080p", "720p", "480p"],
-    attempt: 0,
-    maxAttempts: 5,
-    priority: 10,
-    createdAtMs,
+  const uploadSession = await client.uploadSession.update({
+    where: {
+      id: uploadSessionId,
+    },
+    data: {
+      status: "COMPLETED",
+    },
   });
 
-  return {
-    uploadSessionId,
-    videoId,
-    jobIds: [jobId],
-    status: "ENQUEUED",
-  };
+  if (!uploadSession.s3Key) {
+    throw new Error("Upload session s3Key not found");
+  }
+
+  await client.video.update({
+    where: {
+      videoId,
+    },
+    data: {
+      status: "PROCESSING",
+    },
+  });
+
+  const outputBaseKey = `videos/${videoId}`;
+
+  await xAddTranscodeRequest(uploadSessionId, uploadSession.s3Key, outputBaseKey);
+
+  return { uploadSessionId, videoId };
 }
 

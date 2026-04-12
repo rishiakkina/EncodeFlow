@@ -51,10 +51,7 @@ export const AnyNull = runtime.AnyNull
 
 
 export const ModelName = {
-  User: 'User',
   Video: 'Video',
-  VideoRendition: 'VideoRendition',
-  TranscodeJob: 'TranscodeJob',
   UploadSession: 'UploadSession'
 } as const
 
@@ -74,78 +71,27 @@ export const TransactionIsolationLevel = runtime.makeStrictEnum({
 export type TransactionIsolationLevel = (typeof TransactionIsolationLevel)[keyof typeof TransactionIsolationLevel]
 
 
-export const UserScalarFieldEnum = {
-  id: 'id',
-  email: 'email',
-  password: 'password',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
-} as const
-
-export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
-
-
 export const VideoScalarFieldEnum = {
-  id: 'id',
-  userId: 'userId',
+  videoId: 'videoId',
+  videoChannel: 'videoChannel',
   title: 'title',
   description: 'description',
   status: 'status',
-  visibility: 'visibility',
   durationSeconds: 'durationSeconds',
-  masterPlaylistKey: 'masterPlaylistKey',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  createdAt: 'createdAt'
 } as const
 
 export type VideoScalarFieldEnum = (typeof VideoScalarFieldEnum)[keyof typeof VideoScalarFieldEnum]
 
 
-export const VideoRenditionScalarFieldEnum = {
-  id: 'id',
-  videoId: 'videoId',
-  resolution: 'resolution',
-  bitrateKbps: 'bitrateKbps',
-  codec: 'codec',
-  status: 'status',
-  manifestKey: 'manifestKey',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
-} as const
-
-export type VideoRenditionScalarFieldEnum = (typeof VideoRenditionScalarFieldEnum)[keyof typeof VideoRenditionScalarFieldEnum]
-
-
-export const TranscodeJobScalarFieldEnum = {
-  id: 'id',
-  videoId: 'videoId',
-  attempt: 'attempt',
-  state: 'state',
-  priority: 'priority',
-  traceId: 'traceId',
-  inputKey: 'inputKey',
-  outputBaseKey: 'outputBaseKey',
-  profiles: 'profiles',
-  errorReason: 'errorReason',
-  createdAt: 'createdAt',
-  startedAt: 'startedAt',
-  finishedAt: 'finishedAt',
-  updatedAt: 'updatedAt'
-} as const
-
-export type TranscodeJobScalarFieldEnum = (typeof TranscodeJobScalarFieldEnum)[keyof typeof TranscodeJobScalarFieldEnum]
-
-
 export const UploadSessionScalarFieldEnum = {
   id: 'id',
-  userId: 'userId',
   videoId: 'videoId',
   status: 'status',
   originalFilename: 'originalFilename',
   contentType: 'contentType',
   sizeBytes: 'sizeBytes',
   s3Key: 's3Key',
-  etag: 'etag',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -159,14 +105,6 @@ export const SortOrder = {
 } as const
 
 export type SortOrder = (typeof SortOrder)[keyof typeof SortOrder]
-
-
-export const NullableJsonNullValueInput = {
-  DbNull: DbNull,
-  JsonNull: JsonNull
-} as const
-
-export type NullableJsonNullValueInput = (typeof NullableJsonNullValueInput)[keyof typeof NullableJsonNullValueInput]
 
 
 export const QueryMode = {
@@ -183,13 +121,4 @@ export const NullsOrder = {
 } as const
 
 export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
-
-
-export const JsonNullValueFilter = {
-  DbNull: DbNull,
-  JsonNull: JsonNull,
-  AnyNull: AnyNull
-} as const
-
-export type JsonNullValueFilter = (typeof JsonNullValueFilter)[keyof typeof JsonNullValueFilter]
 
