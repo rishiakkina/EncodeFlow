@@ -1,4 +1,5 @@
-import { xAckTranscodeRequest, xReadTranscodeRequest, type TranscodeRequestPayload } from "@repo/redis";
+import { initializeRedis, xAckTranscodeRequest, xReadTranscodeRequest, type TranscodeRequestPayload } from "@repo/redis";
+import client from "@repo/db"
 import { ECSClient, RunTaskCommand, RunTaskCommandOutput } from "@aws-sdk/client-ecs";
 
 const awsRegion = process.env.AWS_REGION;
@@ -29,7 +30,7 @@ if (!ecsCluster || !ecsTaskDef || !subnets || !securityGroups) {
 
 type FargateTaskOverrides = {
   environment: {
-    UploadSessionId: string;
+    videoId: string;
     InputKey: string;
     OutputBaseKey: string;
   };
@@ -54,7 +55,7 @@ export async function runFargateTask(overrides: FargateTaskOverrides): Promise<R
           {
             name: containerName,
             environment: [
-              { name: "UploadSessionId", value: overrides.environment.UploadSessionId },
+              { name: "videoId", value: overrides.environment.videoId },
               { name: "InputKey", value: overrides.environment.InputKey },
               { name: "OutputBaseKey", value: overrides.environment.OutputBaseKey },
             ],
@@ -67,11 +68,12 @@ export async function runFargateTask(overrides: FargateTaskOverrides): Promise<R
     return response;
 }
 
-
 async function main(): Promise<void> {
+  console.log("Poller running");
+  const redisClient = await initializeRedis();
   while (true) {
     try {
-      const res = await xReadTranscodeRequest();
+      const res = await xReadTranscodeRequest(redisClient);
 
       if (!res) continue;
 
@@ -85,22 +87,31 @@ async function main(): Promise<void> {
 
           const response = await runFargateTask({
             environment: {
-              UploadSessionId: payload.uploadSessionId,
+              videoId: payload.videoId,
               InputKey: payload.inputKey,
-              OutputBaseKey: payload.outputBaseKey,
+              OutputBaseKey: payload.OutputBaseKey,
             },
           });
           console.log("Poller event", {
             stream: entry.id,
             messageId: key,
-            UploadSessionId: payload.uploadSessionId,
+            videoId: payload.videoId,
             InputKey: payload.inputKey,
-            OutputBaseKey: payload.outputBaseKey,
+            OutputBaseKey: payload.OutputBaseKey,
           });
+
 
           console.log("Fargate task response", response);
 
-          await xAckTranscodeRequest(key);
+          await xAckTranscodeRequest(redisClient, entry.id);
+          await client.video.update({
+            where: {
+              videoId: payload.videoId,
+            },
+            data: {
+              status: "READY",
+            },
+          });
         }
       }
     } catch (error) {

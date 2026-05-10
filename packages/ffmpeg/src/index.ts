@@ -1,4 +1,5 @@
 import path from "node:path";
+import fs from "node:fs";
 import ffmpeg from "fluent-ffmpeg";
 import ffmpegPath from "ffmpeg-static"
 
@@ -18,15 +19,16 @@ const resolutions = {
     },
 } as const;
 
-const resolutionArray = ["360p", "480p"];
 export type HlsResolution = keyof typeof resolutions;
-
-const segmentDuration = 6;
 export function transcodeToHls(
     inputVideo: string,
     outputVideo: string,
     resolution: HlsResolution,
 ): Promise<void> {
+    const outputDir = path.dirname(outputVideo);
+    fs.mkdirSync(outputDir, { recursive: true });
+    const segmentPattern = path.join(outputDir, "segment_%03d.ts");
+
     return new Promise<void>((resolve, reject) => {
         ffmpeg(inputVideo)
             .videoCodec("libx264")
@@ -42,9 +44,9 @@ export function transcodeToHls(
                 "-hls_playlist_type vod",
                 "-hls_list_size 0",
         
-                "-hls_segment_filename segments/segment_%03d.ts"
+                `-hls_segment_filename ${segmentPattern}`
               ])
-            .videoBitrate(`${resolutions[resolution].bitrate}Kbps`)
+            .videoBitrate(resolutions[resolution].bitrate)
             .output(outputVideo)
             .on("end",async () => resolve())
             .on("error", (err) => reject(err))

@@ -10,8 +10,10 @@ type ListVideosResponse = {
   };
 };
 
+const apiBaseUrl = process.env.INTERNAL_API_URL ?? process.env.NEXT_PUBLIC_API_URL;
+
 async function getVideos(): Promise<Video[]> {
-  const { data } = await axios.get<ListVideosResponse>(`${process.env.NEXT_PUBLIC_API_URL}/videos`);
+  const { data } = await axios.get<ListVideosResponse>(`${apiBaseUrl}/videos`);
   return data.items;
 }
 

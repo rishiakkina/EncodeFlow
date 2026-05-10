@@ -5,7 +5,7 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { VideoPlayer } from "../../../components/video-player";
-import axios from "axios";  
+import axios from "axios";
 import Image from "next/image";
 
 type PageProps = {
@@ -16,19 +16,20 @@ export type Video = {
   videoId: string;
   videoTitle: string;
   videoChannel: string;
-  videoDescription: string; 
+  videoDescription: string;
   videoDuration: number;
   videoThumbnail?: string;
 };
 
+const apiBaseUrl = process.env.INTERNAL_API_URL ?? process.env.NEXT_PUBLIC_API_URL;
 
 async function getVideoById(videoId: string): Promise<Video> {
-  const { data } = await axios.get<Video>(`${process.env.NEXT_PUBLIC_API_URL}/videos/${videoId}`);
+  const { data } = await axios.get<Video>(`${apiBaseUrl}/videos/${videoId}`);
   return data;
-} 
+}
 
 async function getRecommendedVideos(videoId: string): Promise<Video[]> {
-  const { data } = await axios.get<Video[]>(`${process.env.NEXT_PUBLIC_API_URL}/videos/recommended/${videoId}?limit=5`);
+  const { data } = await axios.get<Video[]>(`${apiBaseUrl}/videos/recommended/${videoId}?limit=5`);
   return data;
 }
 

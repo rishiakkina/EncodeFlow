@@ -12,7 +12,12 @@
   "author": "",
   "license": "ISC",
   "type": "commonjs",
+  "dependencies": {
+    "@repo/s3": "*",
+    "@repo/ffmpeg": "*"
+  },
   "devDependencies": {
-    "@repo/typescript-config": "*"
+    "@repo/typescript-config": "*",
+    "@types/node": "^22.15.30"
   }
 }

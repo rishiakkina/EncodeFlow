@@ -13,6 +13,7 @@
     "@types/node": "^22.19.15",
     "prettier": "^3.6.0",
     "prettier-plugin-tailwindcss": "^0.7.1",
+    "typescript": "^5.9.3",
     "turbo": "^2.8.17"
   },
   "engines": {
