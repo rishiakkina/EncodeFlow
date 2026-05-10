@@ -5,6 +5,7 @@ import client from "@repo/db";
 import dotenv from "dotenv";
 dotenv.config();
 
+const awsBucketName = process.env.AWS_BUCKET_NAME?.trim() ?? 'encodeflow';
 export type CreateUploadSessionResult = {
   uploadSessionId: string;
   videoId: string;
@@ -105,7 +106,7 @@ export async function completeUploadSession(
 
   const outputBaseKey = `videos/${videoId}`;
 
-  await xAddTranscodeRequest(uploadSessionId, uploadSession.s3Key, outputBaseKey);
+  await xAddTranscodeRequest(videoId, awsBucketName, uploadSession.s3Key, outputBaseKey);
 
   return { uploadSessionId, videoId };
 }

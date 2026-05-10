@@ -1,19 +1,16 @@
 {
   "name": "workers",
   "version": "1.0.0",
-  "main": "dist/index.js",
+  "type": "module",
   "scripts": {
     "dev": "npm run build && node dist/index.js",
     "start": "node dist/index.js",
     "build": "tsc -b"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "type": "commonjs",
   "dependencies": {
     "@repo/redis": "*",
     "@repo/s3": "*",
+    "@repo/db": "*",
     "@aws-sdk/client-ecs": "^3.775.0"
   },
   "devDependencies": {

@@ -2,7 +2,6 @@ import {
   GetObjectCommand,
   PutObjectCommand,
   PutObjectCommandOutput,
-  GetObjectCommandOutput,
   S3Client,
 } from "@aws-sdk/client-s3";
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
@@ -11,6 +10,8 @@ import dotenv from "dotenv";
 dotenv.config();
 
 const DEFAULT_PRESIGN_EXPIRES = 3600;
+
+export { PutObjectCommand };
 
 export const s3Client = new S3Client({
   region: process.env.AWS_REGION??'ap-south-1',
@@ -26,7 +27,7 @@ export type PresignedPutUrlParams = {
   contentType: string;
   expiresInSeconds?: number;
 };
-
+;
 export async function getCommand(client: S3Client, params: PresignedGetUrlParams): Promise<GetObjectCommand> {
   return new GetObjectCommand({
     Bucket: params.bucket,
