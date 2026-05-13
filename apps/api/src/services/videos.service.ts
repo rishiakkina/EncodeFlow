@@ -63,7 +63,7 @@ export async function getRecommendedVideos(limit: number, excludeVideoId: string
     where: {
       videoId: {
         not: excludeVideoId,
-      },
+      },status: "READY"
     },
     take: limit,
     orderBy: {

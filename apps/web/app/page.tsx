@@ -19,16 +19,19 @@ async function getVideos(): Promise<Video[]> {
 
 export default async function Page() {
   const videos = await getVideos();
-  console.log(videos);
   return (
-    <main className="min-h-screen bg-zinc-950 text-zinc-50">
+    <main className="min-h-screen bg-zinc-950 text-zinc-100">
       {/* Content */}
-      <section className="px-4 pt-3 pb-6 space-y-4">
+      <section className="space-y-6 px-5 pb-8 pt-6">
+        <div className="flex items-end justify-between">
+          <h1 className="text-base font-semibold tracking-tight">Recent videos</h1>
+          <span className="text-xs text-zinc-500">{videos.length} items</span>
+        </div>
         {/* Video grid */}
-        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           {videos.map((video) => (
-            <Link href={`/video/${video.videoId}`} key={video.videoId} className="space-y-2">
-              <div className="relative aspect-video w-full overflow-hidden rounded-xl bg-zinc-800">
+            <Link href={`/video/${video.videoId}`} key={video.videoId} className="space-y-3">
+              <div className="relative aspect-video w-full overflow-hidden rounded-lg border border-zinc-800 bg-zinc-900">
                 {video.videoThumbnail ? (
                   <Image
                     src={video.videoThumbnail}
@@ -39,19 +42,19 @@ export default async function Page() {
                     unoptimized
                   />
                 ) : (
-                  <div className="absolute inset-0 bg-linear-to-tr from-zinc-700 via-zinc-800 to-zinc-900" />
+                  <div className="absolute inset-0 bg-linear-to-tr from-zinc-800 via-zinc-900 to-black" />
                 )}
-                <span className="absolute bottom-1 right-1 z-10 rounded px-1.5 py-0.5 text-[10px] font-semibold bg-zinc-900/90">
+                <span className="absolute bottom-2 right-2 z-10 rounded bg-zinc-900/85 px-1.5 py-0.5 text-[10px] font-semibold text-zinc-50">
                   {video.videoDuration}
                 </span>
               </div>
               <div className="flex gap-3">
-                <div className="mt-1 h-9 w-9 shrink-0 rounded-full bg-zinc-800" />
+                <div className="mt-1 h-9 w-9 shrink-0 rounded-full border border-zinc-800 bg-zinc-900" />
                 <div className="space-y-1">
                   <h2 className="text-sm font-semibold leading-snug line-clamp-2">
                     {video.videoTitle}
                   </h2>
-                  <p className="text-xs text-zinc-400">{video.videoChannel}</p>
+                  <p className="text-xs text-zinc-500">{video.videoChannel}</p>
                 </div>
               </div>
             </Link>

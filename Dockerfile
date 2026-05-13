@@ -32,3 +32,4 @@ COPY --from=build /app/apps/transcoder/package.json ./apps/transcoder/package.js
 COPY --from=build /app/apps/transcoder/dist ./apps/transcoder/dist
 COPY --from=build /app/packages ./packages
 CMD ["node", "apps/transcoder/dist/index.js"]
+
