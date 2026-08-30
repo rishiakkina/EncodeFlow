@@ -37,7 +37,7 @@ async function getRecommendedVideos(videoId: string): Promise<Video[]> {
 export default async function VideoByIdPage({ params }: PageProps) {
   const { videoId } = await params;
   const video = await getVideoById(videoId);
-  const hlsUrl = `${process.env.CDN_URL}/${videoId}/master.m3u8`;
+  const hlsUrl = `${process.env.CDN_URL}/videos/${videoId}/master.m3u8`;
   const recommended = await getRecommendedVideos(videoId);
   return (
     <main className="min-h-screen bg-zinc-950 text-zinc-100">

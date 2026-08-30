@@ -32,7 +32,7 @@ export async function createUploadSession(input: {
   const videoId = randomUUID();
   const uploadSessionId = randomUUID();
 
-  const s3Key = `uploads/${videoId}.${uploadSessionId}.${input.filename}`;
+  const s3Key = `uploads/${videoId}`;
 
   console.log("s3Key", s3Key);
 

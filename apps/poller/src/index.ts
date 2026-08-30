@@ -31,7 +31,7 @@ if (!ecsCluster || !ecsTaskDef || !subnets || !securityGroups) {
 type FargateTaskOverrides = {
   environment: {
     videoId: string;
-    InputKey: string;
+    inputKey: string;
     OutputBaseKey: string;
   };
 };
@@ -56,7 +56,7 @@ export async function runFargateTask(overrides: FargateTaskOverrides): Promise<R
             name: containerName,
             environment: [
               { name: "videoId", value: overrides.environment.videoId },
-              { name: "InputKey", value: overrides.environment.InputKey },
+              { name: "inputKey", value: overrides.environment.inputKey },
               { name: "OutputBaseKey", value: overrides.environment.OutputBaseKey },
             ],
           },
@@ -88,7 +88,7 @@ async function main(): Promise<void> {
           const response = await runFargateTask({
             environment: {
               videoId: payload.videoId,
-              InputKey: payload.inputKey,
+              inputKey: payload.inputKey,
               OutputBaseKey: payload.OutputBaseKey,
             },
           });

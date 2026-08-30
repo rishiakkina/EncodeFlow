@@ -24,10 +24,6 @@ export default async function Page() {
     <main className="min-h-screen bg-zinc-950 text-zinc-100">
       {/* Content */}
       <section className="space-y-6 px-5 pb-8 pt-6">
-        <div className="flex items-end justify-between">
-          <h1 className="text-base font-semibold tracking-tight">Recent videos</h1>
-          <span className="text-xs text-zinc-500">{videos.length} items</span>
-        </div>
         {/* Video grid */}
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           {videos.map((video) => (

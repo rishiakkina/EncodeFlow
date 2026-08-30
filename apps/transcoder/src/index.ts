@@ -8,8 +8,8 @@ const awsAccessKeyId = process.env.AWS_ACCESS_KEY_ID?.trim();
 const awsSecretAccessKey = process.env.AWS_SECRET_ACCESS_KEY?.trim();
 const awsRegion = process.env.AWS_REGION?.trim();
 const BucketName = process.env.BucketName?.trim();
-const inputKey = process.env.INPUT_KEY?.trim();
-const outputBaseKey = process.env.OUTPUT_BASE_KEY?.trim();
+const inputKey = process.env.inputKey?.trim();
+const outputBaseKey = process.env.outputBaseKey?.trim();
 const resolutions: HlsResolution[] = ["360p", "480p"];
 
 const variantBandwidth: Record<HlsResolution, number> = {
